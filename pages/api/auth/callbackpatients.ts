@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDatabase } from "../../../src/database";
+import cookie from "cookie";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +19,18 @@ export default async function handler(
     })
       .then((element) => element.json())
       .then((tokken) => tokken);
+
+      //Create cookie
+      res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("idTokken", tokkenData.id_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+          maxAge: 60 * 60,
+          sameSite: "strict",
+          path: "/",
+        })
+      );
 
     const userInfo = await fetch(`${process.env.AUTH0_DOMAIN}/userinfo`, {
       method: "POST",
@@ -39,7 +52,7 @@ export default async function handler(
         email: userInfo.email,
         lastName: userInfo.family_name,
         firstName: userInfo.given_name,
-        category: false,
+        category: "patient",
       });
       res.redirect("/formPatient");
     } else {
