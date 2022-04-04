@@ -8,17 +8,13 @@ export default async function handler(
   if (req.method === "POST") {
     const mongodb = await getDatabase();
 
-    const medecin = await mongodb
-      .db()
-      .collection("medecin")
-      .insertOne({
-        lastName: req.body.last,
-        firstName: req.body.first,
-        email: req.body.email,
-        city: req.body.ville,
-        tarif: parseInt(req.body.tarif),
-        speciality: [req.body.spe],
-      });
+    const medecin = await mongodb.db().collection("patient").insertOne({
+      lastName: req.body.last,
+      firstName: req.body.first,
+      email: req.body.email,
+      city: req.body.ville,
+      phone: req.body.phone,
+    });
 
     res.redirect("/");
     res.setHeader("Content-Type", "application/json");
