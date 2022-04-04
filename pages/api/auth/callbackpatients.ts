@@ -14,7 +14,7 @@ export default async function handler(
       headers: {
         "content-type": "application/x-www-form-urlencoded",
       },
-      body: `grant_type=authorization_code&client_id=${process.env.AUTH0_CLIENT_ID}&client_secret=${process.env.AUTH0_CLIENT_SECRET}&code=${param}&redirect_uri=${process.env.AUTH0_REDIRECTURI}`,
+      body: `grant_type=authorization_code&client_id=${process.env.AUTH0_CLIENT_ID}&client_secret=${process.env.AUTH0_CLIENT_SECRET}&code=${param}&redirect_uri=${process.env.AUTH0_REDIRECTURI_PATIENTS}`,
     })
       .then((element) => element.json())
       .then((tokken) => tokken);
@@ -39,9 +39,9 @@ export default async function handler(
         email: userInfo.email,
         lastName: userInfo.family_name,
         firstName: userInfo.given_name,
-        category: true,
+        category: false,
       });
-      res.redirect("/form");
+      res.redirect("/formPatient");
     } else {
       res.redirect("/");
     }
