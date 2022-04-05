@@ -1,4 +1,3 @@
-html,
 body {
   padding: 0;
   margin: 0;
@@ -13,4 +12,37 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.divcontainer{
+  position: absolute;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 25rem;
+  padding-top: 20rem;
+}
+
+.divCalendarRDV{
+  padding-top: 10rem;
+}
+
+.buttonDisponibility{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+.glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+.small {
+display: block;
+line-height: 1.428571429;
+color: white;
+background-color: grey;
+width: 400px;
 }

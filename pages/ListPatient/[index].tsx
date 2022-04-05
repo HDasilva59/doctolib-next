@@ -56,8 +56,8 @@ export default function Login(props: any) {
     const data = JSON.parse(props.patient)
     return (
       <Layout>
-        <Link href="/"><a><button>Back</button></a></Link>
-      <div className="container">
+        <Link href="/" ><a><button>Back</button></a></Link>
+        <div className="container divcontainer" >
         <ul className="list-group">
           {data.map((element: any) => {
             return (

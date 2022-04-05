@@ -20,22 +20,42 @@ export default async function handler(
       idUser = await userId(decoded.email);
     }
     if (user === "medecin") {
-      // const mongodb = await getDatabase();
-      // await mongodb
-      //   .db()
-      //   .collection("medecin")
-      //   .updateOne(
-      //     { _id: new ObjectId(idUser?.toString()) },
-      //     {
-      //       $pullAll: {
-      //         disponibility: {
-      //           _id: [dataArray],
-      //         },
-      //       },
-      //     }
-      //   );
+      const data = req.query.data.toString();
+      const dataArray = JSON.parse(data);
+      const mongodb = await getDatabase();
+
+      for (let index = 0; index < dataArray.length; index++) {
+        await mongodb
+          .db()
+          .collection("medecin")
+          .updateOne(
+            { _id: new ObjectId(idUser?.toString()) },
+            {
+              $pull: {
+                disponibility: {
+                  _id: dataArray[index],
+                },
+              },
+            }
+          );
+        await mongodb
+          .db()
+          .collection("patient")
+          .updateOne(
+            {
+              "reservation.resa": dataArray[index],
+            },
+            {
+              $pull: {
+                reservation: {
+                  resa: dataArray[index],
+                },
+              },
+            }
+          );
+      }
     }
-    res.redirect("/");
+    res.redirect(`${req.headers.referer}`);
     res.setHeader("Content-Type", "application/json");
   } else {
     res.statusCode = 405;

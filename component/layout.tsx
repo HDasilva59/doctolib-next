@@ -24,9 +24,9 @@ export const Layout: React.FC = ({ children }) => {
         </div>
       </nav>
 
-      <div>
+
         {children}
-      </div>
+
 
     </div>
   );
