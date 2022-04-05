@@ -70,7 +70,7 @@ export default function Home(props: any) {
               </label>
               <input type="submit" value="Submit" />
             </form>
-            <div className={styles.grid}>
+            <div className={styles.gridleft}>
               <Link href="#">
                 <a className={styles.card}>
                   <h2>Prenez un RDV &rarr;</h2>
