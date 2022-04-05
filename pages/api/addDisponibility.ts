@@ -3,7 +3,7 @@ import { getDatabase } from "../../src/database";
 import jwt_decode from "jwt-decode";
 import { userCategory, userId } from "../../src/userInfos";
 import { ObjectId } from "mongodb";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,13 +14,12 @@ export default async function handler(
     let user;
     let idUser;
     if (req.cookies.idTokken === undefined) {
-      user = null
-    }
-    else {
+      user = null;
+    } else {
       const decoded: any = jwt_decode(accessTokken);
-      user =  await userCategory(decoded.email)
-      idUser= await userId(decoded.email);
-   }
+      user = await userCategory(decoded.email);
+      idUser = await userId(decoded.email);
+    }
     if (user === "medecin") {
       console.log("coucou", idUser);
       console.log("query", req.body);
@@ -28,25 +27,25 @@ export default async function handler(
       const mongodb = await getDatabase();
 
       const addDispo = await mongodb
-          .db()
-          .collection("medecin")
-          .updateOne(
-            {
-              _id: new ObjectId(idUser?.toString()),
-            },
-            {
-              $push: {
-                disponibility: {
-                  _id: uuidv4(),
-                  date: req.body.date,
-                  heure: req.body.heure,
-                  reserved: false
-                },
+        .db()
+        .collection("medecin")
+        .updateOne(
+          {
+            _id: new ObjectId(idUser?.toString()),
+          },
+          {
+            $push: {
+              disponibility: {
+                _id: uuidv4(),
+                date: req.body.date,
+                heure: req.body.heure,
+                reserved: false,
               },
-            }
-          );
+            },
+          }
+        );
     }
-    res.redirect("/");
+    res.redirect(`${req.headers.referer}`);
     res.setHeader("Content-Type", "application/json");
   } else {
     res.statusCode = 405;

@@ -30,23 +30,24 @@ export default function Login(props: any) {
           </a>
         </Link>
         <div className="container">
-          <ul className="list-group">
+          <div className="list-group">
             {data.map((element: any) => {
               return (
                 <Link
                   key={element._id}
                   href={`/doctors/details?id=${element._id}`}
                 >
-                  <a>
-                    <li className="list-group-item">
-                      Last Name: {element.lastName}, First Name:{" "}
-                      {element.firstName}, City: {" "}{element.city}, email: {element.email}
-                    </li>
+                  <a className="list-group-item list-group-item-action">
+                    <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{element.lastName} {element.firstName}</h5>
+                    <small>{element.city}</small>
+                  </div>
+                  <p className="mb-1">{element.email}</p>
                   </a>
                 </Link>
               );
             })}
-          </ul>
+          </div>
         </div>
       </Layout>
     );
