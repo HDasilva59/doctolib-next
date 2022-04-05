@@ -1,0 +1,56 @@
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import { getDatabase } from "../../src/database";
+import { StopPage } from "../../component/404";
+import { Layout } from "../../component/layout";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const mongodb = await getDatabase();
+  const arrayMedecins = await mongodb
+    .db()
+    .collection("medecin")
+    .find({ speciality: context.query.name })
+    .toArray();
+  const arrayMedecinsString = JSON.stringify(arrayMedecins);
+  return {
+    props: {
+      medecin: arrayMedecinsString,
+    },
+  };
+};
+
+export default function Login(props: any) {
+  if (props.patient !== null) {
+    const data = JSON.parse(props.medecin);
+    return (
+      <Layout>
+        <Link href="/">
+          <a>
+            <button>Back</button>
+          </a>
+        </Link>
+        <div className="container">
+          <ul className="list-group">
+            {data.map((element: any) => {
+              return (
+                <Link
+                  key={element._id}
+                  href={`/doctors/details?id=${element._id}`}
+                >
+                  <a>
+                    <li className="list-group-item">
+                      Last Name: {element.lastName}, First Name:{" "}
+                      {element.firstName}, City: {" "}{element.city}, email: {element.email}
+                    </li>
+                  </a>
+                </Link>
+              );
+            })}
+          </ul>
+        </div>
+      </Layout>
+    );
+  } else if (props.errorCode) {
+    return <StopPage />;
+  }
+}

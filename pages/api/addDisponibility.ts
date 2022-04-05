@@ -40,6 +40,7 @@ export default async function handler(
                   _id: uuidv4(),
                   date: req.body.date,
                   heure: req.body.heure,
+                  reserved: false
                 },
               },
             }

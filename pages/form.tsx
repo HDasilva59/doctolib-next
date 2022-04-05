@@ -10,6 +10,8 @@ export default function Form(props: { props: any }) {
           <input type="text" id="last" name="last" />
           <label>Email:</label>
           <input type="text" id="email" name="email" />
+          <label>Phone:</label>
+          <input type="text" id="phone" name="phone" />
           <label>Spécialité:</label>
           <input type="text" id="spe" name="spe" />
           <label>Ville:</label>

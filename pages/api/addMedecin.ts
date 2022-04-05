@@ -15,9 +15,10 @@ export default async function handler(
         lastName: req.body.last,
         firstName: req.body.first,
         email: req.body.email,
+        phone: req.body.phone,
         city: req.body.ville,
         tarif: parseInt(req.body.tarif),
-        speciality: [req.body.spe],
+        speciality: req.body.spe,
       });
 
     res.redirect("/");

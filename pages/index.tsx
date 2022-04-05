@@ -64,7 +64,7 @@ export default function Home(props: any) {
             Réservez une consultation physique chez un professionnel de santé
           </h1>
           <div className="container" style={{ textAlign: "center" }}>
-            <form action="/Doctors">
+            <form action="/doctors">
               <label>
                 <input type="text" name="name" placeholder="Rechercher un médecin" />
               </label>
