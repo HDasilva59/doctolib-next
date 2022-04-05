@@ -20,17 +20,17 @@ export default async function handler(
       .then((element) => element.json())
       .then((tokken) => tokken);
 
-      //Create cookie
-      res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("idTokken", tokkenData.id_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          maxAge: 60 * 60,
-          sameSite: "strict",
-          path: "/",
-        })
-      );
+    //Create cookie
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("idTokken", tokkenData.id_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 60 * 60,
+        sameSite: "strict",
+        path: "/",
+      })
+    );
 
     const userInfo = await fetch(`${process.env.AUTH0_DOMAIN}/userinfo`, {
       method: "POST",
@@ -56,11 +56,8 @@ export default async function handler(
       });
       res.redirect("/formPatient");
     } else {
-      res.redirect("/");
+      res.status(200).redirect(`/`);
     }
-
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ cookie: "cookie" }));
   } else {
     res.statusCode = 405;
     res.end();

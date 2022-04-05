@@ -8,9 +8,20 @@ export default async function handler(
   if (req.method === "GET") {
     const url = `${process.env.AUTH0_DOMAIN}/v2/logout?client_id=${process.env.AUTH0_CLIENT_ID}&returnTo=http://localhost:3000/`;
 
+    //destroy cookie
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("idTokken", "null", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 0,
+        sameSite: "strict",
+        path: "/",
+      })
+    );
+
     res.setHeader("Content-Type", "application/json");
     res.redirect(url);
-    res.end(JSON.stringify({ cookie: "cookie" }));
   } else {
     res.statusCode = 405;
     res.end();
