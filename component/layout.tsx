@@ -1,12 +1,12 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import styles from "./styles/Home.module.css";
 import Link from "next/link";
 
 export const Layout: React.FC = ({ children }) => {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
           <div className="container-fluid">
           <Link  href="/"><a className="navbar-brand">Home</a></Link>
           <div className="collapse navbar-collapse" id="navbarNav">
@@ -22,10 +22,11 @@ export const Layout: React.FC = ({ children }) => {
             </ul>
           </div>
         </div>
-
       </nav>
 
-      <div>{children}</div>
+      <div>
+        {children}
+      </div>
 
     </div>
   );
