@@ -145,13 +145,6 @@ margin-bottom: 20px;
   }
 }
 
-.pagecontainerwelcome {
-  height: 100vh;
-  position: relative;
-  background-size: cover;
-  background-image: url("/image/65574304-lisse-fond-bleu-dégradé-foncé-abstrait.webp");
-}
-
 .itemcenter {
   height: 50vh;
   width:300px;
