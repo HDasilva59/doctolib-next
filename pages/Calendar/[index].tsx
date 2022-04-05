@@ -27,7 +27,6 @@ const accessTokken = context.req.cookies.idTokken;
   const mongodb = await getDatabase();
   const planningMedecin = await mongodb.db().collection("medecin").findOne({ _id: new ObjectID(`${idMedecin}`) })
     .then((result) => result?.disponibility)
-    console.log(planningMedecin);
 
     let data;
     if (planningMedecin === undefined) {
@@ -54,10 +53,17 @@ const accessTokken = context.req.cookies.idTokken;
 
 export default function Calendar(props: any) {
   const [afficheForm, setAfficheForm] = useState(<></>)
-  const [arraySelection, setArraySelection] = useState([])
+  const [arrayDelete,setArrayDelete] = useState<string[]>([]);
 
-  function changeArraySelection(_id: any) {
-    console.log("coucou", _id);
+  function changeArraySelection(event: any) {
+    if (event.target.checked === true) {
+      setArrayDelete(arrayDelete => [...arrayDelete, event.target.value]);
+    } else {
+      const index = arrayDelete.indexOf(event.target.value);
+      if (index !== -1) {
+        arrayDelete.splice(index, 1);
+      }
+    }
   }
 
   if (props.errorCode === "nothing") {
@@ -77,15 +83,16 @@ export default function Calendar(props: any) {
                           {props.planning.map((element: any) => {
                             return (
                                 <div key={element._id}>
-                                  <input   className="form-check-input" type="checkbox" value={element._id} id={element._id}/>
-                                  <li  onClick={() => changeArraySelection(element._id)}  className="list-group-item">Date: {element.date}, Heure: {element.heure}</li>
+                                  <input  onClick={(event) => changeArraySelection(event)} className="form-check-input" type="checkbox" value={element._id} id={element._id}/>
+                                  <li    className="list-group-item">Date: {element.date}, Heure: {element.heure}</li>
                                 </div>
                             )
                           })}
                         </ul>
                     </div>
-                      <button onClick={() => setAfficheForm(<DisponibilityForm/>)}>Add disponibility</button>
-                      <button >Delete selection</button>
+                    <button onClick={() => setAfficheForm(<DisponibilityForm />)}>Add disponibility</button>
+                    {arrayDelete.length !== 0 ? <Link href={`/api/deleteDisponibility?data=${JSON.stringify(arrayDelete)}`}><a><button>Delete selection</button></a></Link> : <></>}
+
                     {afficheForm}
                   </div>
               </Layout>)
