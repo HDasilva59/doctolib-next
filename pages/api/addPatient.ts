@@ -18,7 +18,6 @@ export default async function handler(
 
     res.redirect("/");
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ cookie: "cookie" }));
   } else {
     res.statusCode = 405;
     res.end();

@@ -7,19 +7,22 @@ export const Layout: React.FC = ({ children }) => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link href="/">Logo Homepage</Link>
-
-
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-
-            <li className="nav-item" >
+          <div className="container-fluid">
+          <Link  href="/"><a className="navbar-brand">Home</a></Link>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
               <Link href="/login">
-                <a className="nav-link active"> Login</a>
+                <a className="nav-link active">
+                  <li className="nav-item">Login</li></a>
               </Link>
-            </li>
-          </ul>
+              <Link href="/api/auth/logout">
+                <a className="nav-link active">
+                  <li className="nav-item">Logout</li></a>
+              </Link>
+            </ul>
+          </div>
         </div>
+
       </nav>
 
       <div>{children}</div>
