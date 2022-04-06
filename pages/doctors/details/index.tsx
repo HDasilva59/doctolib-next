@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function DetailsPatient(props: any) {
   const [modalOpen, setModalOpen] = useState(false);
+
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
     return (
@@ -50,7 +51,7 @@ export default function DetailsPatient(props: any) {
                         <p>
                             <i className="glyphicon glyphicon-envelope"></i>{data.email}
                             <br />
-                            <i className="glyphicon glyphicon-phone"></i><a href="http://www.jquery2dotnet.com">{data.phone}</a>
+                            <i className="glyphicon glyphicon-phone"></i>{data.phone}
                             <br />
                             <i className="glyphicon glyphicon-gift"></i></p>
                     </div>

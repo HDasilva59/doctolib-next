@@ -21,9 +21,6 @@ export default async function handler(
       idUser = await userId(decoded.email);
     }
     if (user === "medecin") {
-      console.log("coucou", idUser);
-      console.log("query", req.body);
-
       const mongodb = await getDatabase();
 
       const addDispo = await mongodb
