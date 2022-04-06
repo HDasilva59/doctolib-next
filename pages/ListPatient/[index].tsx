@@ -11,66 +11,80 @@ import { Layout } from "../../component/layout";
 import jwt_decode from "jwt-decode";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-
   const accessTokken = context.req.cookies.idTokken;
   let user;
   if (context.req.cookies.idTokken === undefined) {
-    user = null
-  }
-  else {
+    user = null;
+  } else {
     const decoded: any = jwt_decode(accessTokken);
-   user =  await userCategory(decoded.email)
- }
+    user = await userCategory(decoded.email);
+  }
 
   if (user === "medecin") {
+    const idMedecin = context?.params?.index;
+    const mongodb = await getDatabase();
+    const arrayPatients = await mongodb
+      .db()
+      .collection("medecin")
+      .findOne({ _id: new ObjectID(`${idMedecin}`) })
+      .then((result) => result?.patients);
 
-  const idMedecin = context?.params?.index
-  const mongodb = await getDatabase();
-  const arrayPatients = await mongodb.db().collection("medecin").findOne({ _id: new ObjectID(`${idMedecin}`) })
-    .then((result) => result?.patients)
-
-  const patientDetails = await Promise.all(
-    arrayPatients.map(async (element: any) => {
-      return await mongodb.db().collection("patient").findOne({ _id: element })
-    })
-  );
-    const arrayPatientsString = JSON.stringify(patientDetails)
+    const patientDetails = await Promise.all(
+      arrayPatients.map(async (element: any) => {
+        return await mongodb
+          .db()
+          .collection("patient")
+          .findOne({ _id: element });
+      })
+    );
+    const arrayPatientsString = JSON.stringify(patientDetails);
     return {
-    props: {
+      props: {
         patient: arrayPatientsString,
-    }
-  };
+      },
+    };
   } else {
-     return {
-    props: {
+    return {
+      props: {
         patient: null,
-        errorCode: "error"
-    }
-  };
+        errorCode: "error",
+      },
+    };
   }
-}
+};
 
 export default function Login(props: any) {
-
   if (props.patient !== null) {
-    const data = JSON.parse(props.patient)
+    const data = JSON.parse(props.patient);
     return (
       <Layout>
-        <Link href="/" ><a><button>Back</button></a></Link>
-        <div className="container divcontainer" >
-        <ul className="list-group">
-          {data.map((element: any) => {
-            return (
-              <Link key={element._id} href={`/ListPatient/details/${element._id}`}>
-                <a><li className="list-group-item">Last Name: {element.lastName}, First Name: {element.firstName}</li></a>
-              </Link>
-            )
-          })}
-        </ul>
+        <Link href="/">
+          <a>
+            <button>Back</button>
+          </a>
+        </Link>
+        <div className="container divcontainer">
+          <ul className="list-group">
+            {data.map((element: any) => {
+              return (
+                <Link
+                  key={element._id}
+                  href={`/ListPatient/details/${element._id}`}
+                >
+                  <a>
+                    <li className="list-group-item">
+                      Last Name: {element.lastName}, First Name:{" "}
+                      {element.firstName}
+                    </li>
+                  </a>
+                </Link>
+              );
+            })}
+          </ul>
         </div>
-        </Layout>
-    )
+      </Layout>
+    );
   } else if (props.errorCode) {
-    return <StopPage />
+    return <StopPage />;
   }
 }
