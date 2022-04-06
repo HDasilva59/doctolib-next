@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 export default function Form(props: { props: any }) {
   return (
     <div className="container">
-      <form action="/api/addMedecin" method="post">
+      <form action={`${process.env.AUTH0_BASE_URL}/api/addMedecin`} method="post">
         <div className="row mb-3">
           <label className="col-sm-2 col-form-label">FirstName</label>
           <div className="col-sm-10">
