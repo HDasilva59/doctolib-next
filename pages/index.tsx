@@ -8,6 +8,7 @@ import { userCategory, userId, userIdPatient } from '../src/userInfos'
 import styles from '../styles/Home.module.css'
 import jwt_decode from "jwt-decode";
 import { getDatabase } from '../src/database'
+import moment from 'moment'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
@@ -52,31 +53,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
 export default function Home(props: any) {
-  const [arrayFutureRDV,setarrayFutureRDV] = useState(<></>)
+  const [arrayFutureRDV, setarrayFutureRDV] = useState([])
+  const [arrayPreviousRDV, setarrayPreviousRDV] = useState([])
+   const [arrayFavoris,setarrayFavoris] = useState([])
   const [profile, setProfile] = useState(props.category)
+
+
   async function GetRDVPatient() {
-
-
-    const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`, {
-      method:"GET",
-    })
-    return(data)
+    const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((result) => result.json()).then((response) => response.dataFuture);
+    const dataPast = await fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((result)=>result.json()).then((response)=>response.dataPast)
+    setarrayFutureRDV(dataFuture)
+    setarrayPreviousRDV(dataPast)
+  }
+  async function GetFavorite() {
+    const dataFavorite = await fetch(`/api/getFavorite?data=${props.idPatient}`).then((result) => result.json()).then((response) => response.data);
+    setarrayFavoris(dataFavorite);
   }
 
   useEffect(()=> {
-
     if (profile==="patient") {
-
-      //const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((response)=> response.json())
-      //data.then((response)=> console.log(response))
-console.log(GetRDVPatient())
-
-
+      GetRDVPatient()
+      GetFavorite()
     }
   },[])
-
-
-
 
 
   if (profile=== null) {
@@ -156,9 +155,28 @@ console.log(GetRDVPatient())
 
  <div className="container">
    <div className='row'>
-     <div className='col-4' style={{backgroundColor:"green"}}> RDV Passés</div>
-     <div className='col-4' style={{backgroundColor:"red"}}> {arrayFutureRDV}</div>
-     <div className='col-4' style={{backgroundColor:"blue"}}> favoris</div>
+                <div className='col-4' style={{ backgroundColor: "green" }}> RDV Passés
+                <ul className="list-group">
+            {arrayPreviousRDV.map((element:any) => {
+              return (<li className="list-group-item" key={element.id}>Date : {element.date} , Heure : {element.heure}</li>)
+            })}
+                  </ul>
+                </div>
+     <div className='col-4' style={{ backgroundColor: "red" }}>
+          <ul className="list-group">
+            {arrayFutureRDV.map((element:any) => {
+              return (<li className="list-group-item" key={element.id}>Date : {element.date} , Heure : {element.heure}</li>)
+            })}
+          </ul>
+     </div>
+                <div className='col-4' style={{ backgroundColor: "blue" }}> favoris
+                <ul className="list-group">
+            {arrayFavoris.map((element:any) => {
+              return (<li className="list-group-item" key={element._id}>{element.lastName} {element.firstName}</li>)
+            })}
+          </ul>
+
+                </div>
       </div>
  </div>
 
