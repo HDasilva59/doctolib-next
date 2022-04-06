@@ -1,29 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDatabase } from "../../src/database";
+import jwt_decode from "jwt-decode";
+import { userCategory, userId } from "../../src/userInfos";
+import { ObjectId } from "mongodb";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     const mongodb = await getDatabase();
-
     const medecin = await mongodb
       .db()
       .collection("medecin")
-      .insertOne({
-        lastName: req.body.last,
-        firstName: req.body.first,
-        email: req.body.email,
-        phone: req.body.phone,
-        city: req.body.ville,
-        tarif: parseInt(req.body.tarif),
-        speciality: req.body.spe,
-        disponibility : []
-      });
+      .find()
+      .toArray()
 
-    res.redirect("/");
+console.log(medecin)
+    res.redirect(`${req.headers.referer}`);
     res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ data: medecin}));
   } else {
     res.statusCode = 405;
     res.end();

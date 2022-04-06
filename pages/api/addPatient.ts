@@ -14,6 +14,7 @@ export default async function handler(
       email: req.body.email,
       city: req.body.ville,
       phone: req.body.phone,
+      reservation: []
     });
 
     res.redirect("/");
