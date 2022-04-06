@@ -52,6 +52,7 @@ export default function Login(props: any) {
           <form action="/api/modifyPatient" method="post">
             <div className="mb-3 mt-3">
               <label className="form-label">Your First Name:</label>
+              <input type="hidden" name="id" id="id" value={data._id} />
               <input
                 type="text"
                 className="form-control"
@@ -86,9 +87,8 @@ export default function Login(props: any) {
                 type="text"
                 className="form-control"
                 id="phone"
-                name="phone">
-                  {data.phone}
-                </input>
+                defaultValue={data.phone}
+                name="phone"/>
             </div>
             <div className="mb-3">
               <label className="form-label">City:</label>
@@ -96,13 +96,13 @@ export default function Login(props: any) {
                 type="text"
                 className="form-control"
                 id="ville"
-                placeholder={data.city}
+                defaultValue={data.city}
                 name="ville"
               />
             </div>
             <div className="form-check mb-3"></div>
             <button type="submit" className="btn btn-primary">
-              Submit
+              Modify
             </button>
           </form>
         </div>

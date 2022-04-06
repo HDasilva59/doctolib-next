@@ -157,67 +157,77 @@ export default function Home(props: any) {
   } else if (profile === "patient") {
     return (
       <Layout>
-        <main >
-          <div >
-            <div className='container-fluid Head'>
-          <h1 className={styles.title}>
-            Réservez une consultation physique chez un professionnel de santé
-          </h1>
-          <div className="container-fluid " style={{ textAlign: "center" }}>
-            <form className='SearchBarPatient' action="/doctors">
-              <label>
-                <input
-                  className={styles.inputtext}
-                  type="text"
-                  name="name"
-                  placeholder="Rechercher un médecin"
-                />
-              </label>
-              <input
-                className={styles.inputsubmit}
-                type="submit"
-                value="Submit"
-              />
-            </form>
+        <main>
+          <div>
+            <div className="container-fluid Head">
+              <h1 className={styles.title}>
+                Réservez une consultation physique chez un professionnel de
+                santé
+              </h1>
+              <div className="container-fluid " style={{ textAlign: "center" }}>
+                <form className="SearchBarPatient" action="/doctors">
+                  <label>
+                    <input
+                      className={styles.inputtext}
+                      type="text"
+                      name="name"
+                      placeholder="Rechercher un médecin"
+                    />
+                  </label>
+                  <input
+                    className={styles.inputsubmit}
+                    type="submit"
+                    value="Submit"
+                  />
+                </form>
+              </div>
             </div>
+
+            <div className="container">
+              <div className="row blocRDV">
+                <div className="row titleBlockRDV"> My RDV</div>
+                <div className="row">
+                  <div className="col-4 colRDV">
+                    {" "}
+                    MY past RDV
+                    <ul className="list-group">
+                      {arrayPreviousRDV.map((element: any) => {
+                        return (
+                          <li className="list-group-item" key={element.id}>
+                            Date : {element.date} , Heure : {element.heure}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-4 colRDV">
+                    {" "}
+                    MY coming RDV
+                    <ul className="list-group">
+                      {arrayFutureRDV.map((element: any) => {
+                        return (
+                          <li className="list-group-item" key={element.id}>
+                            Date : {element.date} , Heure : {element.heure}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-4 colRDV">
+                    My Favorites doctors
+                    <ul className="list-group">
+                      {arrayFutureRDV.map((element: any) => {
+                        return (
+                          <li className="list-group-item" key={element.id}>
+                            Date : {element.date} , Heure : {element.heure}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-
- <div className="container">
-   <div className='row blocRDV'>
-     <div className='row titleBlockRDV'> My RDV</div>
-<div className='row'>
-                <div className='col-4 colRDV'  > MY past RDV
-
-                <ul className="list-group">
-            {arrayPreviousRDV.map((element:any) => {
-              return (<li className="list-group-item" key={element.id}>Date : {element.date} , Heure : {element.heure}</li>)
-            })}
-                  </ul>
-                </div>
-     <div className='col-4 colRDV' > MY coming RDV
-          <ul className="list-group">
-            {arrayFutureRDV.map((element:any) => {
-              return (<li className="list-group-item" key={element.id}>Date : {element.date} , Heure : {element.heure}</li>)
-            })}
-          </ul>
-     </div>
-                <div className='col-4 colRDV' >
-                  My Favorites doctors
-                  <ul className="list-group">
-                    {arrayFutureRDV.map((element: any) => {
-                      return (
-                        <li className="list-group-item" key={element.id}>
-                          Date : {element.date} , Heure : {element.heure}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-      </div>
- </div>
- </div>
-
-
           </div>
         </main>
       </Layout>
