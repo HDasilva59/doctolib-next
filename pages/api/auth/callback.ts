@@ -26,7 +26,7 @@ export default async function handler(
       cookie.serialize("idTokken", tokkenData.id_token, {
         secure: process.env.NODE_ENV !== "development",
         maxAge: 60 * 60,
-        sameSite: "strict",
+        sameSite: "lax",
         path: "/",
       })
     );
