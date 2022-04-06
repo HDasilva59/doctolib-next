@@ -3,6 +3,7 @@ import Head from "next/head";
 import styles from "./styles/Home.module.css";
 import Link from "next/link";
 
+
 export const Layout: React.FC = ({ children }) => {
   return (
     <div>
@@ -30,6 +31,8 @@ export const Layout: React.FC = ({ children }) => {
     <div className="container">
       {children}
     </div>
+
+
 
 
     </div>

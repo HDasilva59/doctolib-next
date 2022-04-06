@@ -1,5 +1,3 @@
-
-
 .container {
   padding: 0 2rem;
 }
@@ -50,6 +48,10 @@
 .title,
 .description {
   text-align: center;
+  color : white;
+  font-size: 3rem;
+  margin-bottom: 40px;
+  font-style: oblique
 }
 
 .description {
@@ -70,14 +72,36 @@
 .gridleft {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: left;
   flex-wrap: wrap;
-  width: 2000px;
-  object-fit: fill;
-  background-image: url("/images/background_doctor_3.png");
-  background-size: contain;
-background-repeat: no-repeat;
-margin-bottom: 20px;
+  max-width: viewport-length;
+  background-image: url("/images/backgrounddoctor3.png");
+  margin-bottom: 20px;
+  margin-top: 50px ;
+}
+
+.inputtext {
+  width: 700px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.inputsubmit {
+  background-color: #074c5e;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  border-radius: 4px;
+
+  cursor: pointer;
+  display: inline-block;
+
+
 }
 
 .gridleft1 {
@@ -150,3 +174,5 @@ margin-bottom: 20px;
   width:300px;
   border: 1px;
 }
+
+
