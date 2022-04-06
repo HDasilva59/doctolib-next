@@ -43,7 +43,6 @@ export default async function handler(
         );
     }
     res.redirect(`${req.headers.referer}`);
-    res.setHeader("Content-Type", "application/json");
   } else {
     res.statusCode = 405;
     res.end();

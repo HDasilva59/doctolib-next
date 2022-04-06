@@ -56,7 +56,6 @@ export default async function handler(
       });
     });
 
-    res.setHeader("Content-Type", "application/json");
     res.end(
       JSON.stringify({ dataFuture: dataResaFuture, dataPast: dataResaPast })
     );

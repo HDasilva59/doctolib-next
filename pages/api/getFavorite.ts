@@ -39,7 +39,6 @@ export default async function handler(
       })
     );
 
-    res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ data: detailFavoris }));
   } else {
     res.statusCode = 405;
