@@ -27,7 +27,7 @@ export default async function handler(
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
         maxAge: 60 * 60,
-        sameSite: "strict",
+        sameSite: "lax",
         path: "/",
       })
     );
