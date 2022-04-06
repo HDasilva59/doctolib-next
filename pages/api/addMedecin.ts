@@ -19,7 +19,7 @@ export default async function handler(
         city: req.body.ville,
         tarif: parseInt(req.body.tarif),
         speciality: req.body.spe,
-        disponibility : []
+        disponibility: [],
       });
 
     res.redirect("/");

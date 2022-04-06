@@ -66,6 +66,22 @@ export default async function handler(
           "disponibility._id": idDisponibility,
         })
         .then((result) => result?._id);
+
+      const addFavorite = await mongodb
+      .db()
+      .collection("patient")
+      .updateOne(
+        {
+          _id: new ObjectId(idUser?.toString()),
+        },
+        {
+          $push: {
+            favoris: {
+              _id: uuidv4(),
+              favoritedoc: idMedecin,
+            },
+          },
+        });
       res.redirect(`/doctors/details?id=${idMedecin?.toString()}`);
     }
   }
