@@ -2,11 +2,12 @@ import { request } from 'http'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Layout } from '../component/layout'
-import { userCategory, userId } from '../src/userInfos'
+import { userCategory, userId, userIdPatient } from '../src/userInfos'
 import styles from '../styles/Home.module.css'
 import jwt_decode from "jwt-decode";
+import { getDatabase } from '../src/database'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
@@ -23,10 +24,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } else {
     user === undefined
   }
-  if (user === undefined || idUser === undefined) {
+
+  if (user === undefined && idUser === undefined) {
     return {
     props: {
       category: null,
+    }
+  };
+  }else if (user === "patient" ) {
+    idUser = await userIdPatient(decoded.email);
+    return {
+    props: {
+      category: "patient",
+      idPatient: idUser?.toString(),
     }
   };
   } else {
@@ -42,13 +52,32 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
 export default function Home(props: any) {
-
+  const [arrayFutureRDV,setarrayFutureRDV] = useState(<></>)
   const [profile, setProfile] = useState(props.category)
+  async function GetRDVPatient() {
 
-   const submitSearchDoctor = (event : any) => {
-    event.preventDefault();
 
-   }
+    const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`, {
+      method:"GET",
+    })
+    return(data)
+  }
+
+  useEffect(()=> {
+
+    if (profile==="patient") {
+
+      //const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((response)=> response.json())
+      //data.then((response)=> console.log(response))
+console.log(GetRDVPatient())
+
+
+    }
+  },[])
+
+
+
+
 
   if (profile=== null) {
 
@@ -107,6 +136,36 @@ export default function Home(props: any) {
             <Link href={`/Calendar/${props.userId}`}><a><button>Calendar</button></a></Link>
           </div>
         </main>
+      </Layout>
+    )
+  } else if (profile === "patient") {
+
+    return (
+      <Layout>
+        <main className="page-container-welcome">
+          <h1 className={styles.title}>
+            Réservez une consultation physique chez un professionnel de santé
+          </h1>
+          <div className="container" style={{ textAlign: "center" }}>
+            <form action="/doctors">
+              <label>
+                <input className={styles.inputtext} type="text" name="name" placeholder="Rechercher un médecin" />
+              </label>
+              <input className={styles.inputsubmit} type="submit" value="Submit" />
+            </form>
+
+ <div className="container">
+   <div className='row'>
+     <div className='col-4' style={{backgroundColor:"green"}}> RDV Passés</div>
+     <div className='col-4' style={{backgroundColor:"red"}}> {arrayFutureRDV}</div>
+     <div className='col-4' style={{backgroundColor:"blue"}}> favoris</div>
+      </div>
+ </div>
+
+
+          </div>
+        </main>
+
       </Layout>
     )
   }
