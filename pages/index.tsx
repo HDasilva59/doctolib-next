@@ -131,7 +131,7 @@ export default function Home(props: any) {
         </Head>
         <main>
           <div className='container'>
-            <Link href={`/ListPatient/${props.userId}`}><a><button>List of Patients</button></a></Link>
+
             <Link href={`/Calendar/${props.userId}`}><a><button>Calendar</button></a></Link>
           </div>
         </main>
