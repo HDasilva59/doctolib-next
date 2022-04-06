@@ -49,10 +49,11 @@
 .title,
 .description {
   text-align: center;
-  color : white;
+  color : rgb(12, 2, 2);
   font-size: 3rem;
   margin-bottom: 40px;
-  font-style: oblique
+  font-style: oblique;
+  padding-top: 50px;
 }
 
 .description {
