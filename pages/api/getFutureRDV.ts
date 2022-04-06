@@ -10,16 +10,45 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     const mongodb = await getDatabase();
-    const medecin = await mongodb
+    const patientInfo = await mongodb
       .db()
-      .collection("medecin")
-      .find()
-      .toArray()
+      .collection("patient")
+      .findOne({ _id: new ObjectId(req.query.data.toString()) })
+      .then((result) => result?.reservation);
 
-console.log(medecin)
-    res.redirect(`${req.headers.referer}`);
+    const detailsResa = await Promise.all(
+      patientInfo.map(async (element: any) => {
+        return await mongodb
+          .db()
+          .collection("medecin")
+          .findOne({
+            "disponibility._id": element.resa,
+          })
+          .then((result) => result?.disponibility)
+          .then((disponibility) => {
+            return disponibility.map((dispo: any, index: number) => {
+              if (dispo._id === element.resa) {
+                return {
+                  date: dispo.date,
+                  heure: dispo.heure,
+                  id: element.resa,
+                };
+              }
+            });
+          });
+      })
+    );
+    const dataResa: any = [];
+    detailsResa.forEach((element: any, index: number) => {
+      element.forEach((detail: any) => {
+        if (detail !== undefined) {
+          dataResa.push(detail);
+        }
+      });
+    });
+
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ data: medecin}));
+    res.end(JSON.stringify({ data: dataResa }));
   } else {
     res.statusCode = 405;
     res.end();

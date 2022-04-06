@@ -52,26 +52,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
 export default function Home(props: any) {
-  const [arrayFutureRDV,setarrayFutureRDV] = useState(<></>)
+  const [arrayFutureRDV,setarrayFutureRDV] = useState([])
   const [profile, setProfile] = useState(props.category)
+
   async function GetRDVPatient() {
-
-
-    const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`, {
-      method:"GET",
-    })
-    return(data)
+    const data = await fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((result)=>result.json()).then((response)=>response.data)
+    setarrayFutureRDV(data)
   }
 
   useEffect(()=> {
 
     if (profile==="patient") {
-
-      //const data = fetch(`/api/getFutureRDV?data=${props.idPatient}`).then((response)=> response.json())
-      //data.then((response)=> console.log(response))
-console.log(GetRDVPatient())
-
-
+      GetRDVPatient()
     }
   },[])
 
@@ -157,7 +149,13 @@ console.log(GetRDVPatient())
  <div className="container">
    <div className='row'>
      <div className='col-4' style={{backgroundColor:"green"}}> RDV Passés</div>
-     <div className='col-4' style={{backgroundColor:"red"}}> {arrayFutureRDV}</div>
+     <div className='col-4' style={{ backgroundColor: "red" }}>
+          <ul>
+            {arrayFutureRDV.map((element:any) => {
+              return (<li key={element.id}>Date : {element.date} , Heure : {element.heure}</li>)
+            })}
+          </ul>
+     </div>
      <div className='col-4' style={{backgroundColor:"blue"}}> favoris</div>
       </div>
  </div>
