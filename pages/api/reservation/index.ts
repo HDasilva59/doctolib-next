@@ -66,14 +66,6 @@ export default async function handler(
           "disponibility._id": idDisponibility,
         })
         .then((result) => result?._id);
-      console.log(
-        "==================================== idMedecin" + " " + idMedecin
-      );
-      console.log(
-        "==================================== idMedecin STRING" +
-          " " +
-          idMedecin?.toString()
-      );
       res.redirect(`/doctors/details?id=${idMedecin?.toString()}`);
     }
   }
