@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDatabase } from "../../src/database";
-import jwt_decode from "jwt-decode";
-import { userCategory, userId } from "../../src/userInfos";
 import { ObjectId } from "mongodb";
 import moment from "moment";
 
