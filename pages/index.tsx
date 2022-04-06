@@ -170,9 +170,10 @@ export default function Home(props: any) {
           </ul>
      </div>
                 <div className='col-4' style={{ backgroundColor: "blue" }}> favoris
-                <ul className="list-group">
+                  <ul className="list-group">
+
             {arrayFavoris.map((element:any) => {
-              return (<li className="list-group-item" key={element._id}>{element.lastName} {element.firstName}</li>)
+              return (<Link key={element._id} href={`/doctors/details?id=${element._id}`}><a><li className="list-group-item" >{element.lastName} {element.firstName}</li></a></Link>)
             })}
           </ul>
 

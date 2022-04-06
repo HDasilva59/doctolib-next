@@ -15,10 +15,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .collection("medecin")
     .findOne({ _id: new ObjectID(`${idMedecin}`)})
     .then((result) => result);
+
+  let backUrl;
+  if (context.req.headers.referer === `${process.env.AUTH0_BASE_URL}/`) {
+    backUrl = `${process.env.AUTH0_BASE_URL}/`;
+  } else {
+    backUrl = `${process.env.AUTH0_BASE_URL}/doctors?name=${medecinDetails?.speciality}`;
+  }
+
   return {
     props: {
       patient: JSON.stringify(medecinDetails),
-      speciality: `${process.env.AUTH0_BASE_URL}/doctors?name=${medecinDetails?.speciality}`,
+      speciality: backUrl,
     },
   };
 };
