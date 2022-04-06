@@ -66,9 +66,9 @@ export default function Home(props: any) {
           <div className="container" style={{ textAlign: "center" }}>
             <form action="/doctors">
               <label>
-                <input type="text" name="name" placeholder="Rechercher un médecin" />
+                <input className={styles.inputtext} type="text" name="name" placeholder="Rechercher un médecin" />
               </label>
-              <input type="submit" value="Submit" />
+              <input className={styles.inputsubmit} type="submit" value="Submit" />
             </form>
             <div className={styles.gridleft}>
               <Link href="#">
