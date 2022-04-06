@@ -23,10 +23,6 @@ export default async function handler(
     }
     if (user === "patient") {
       const idDisponibility = req.query.idDispo;
-      console.log(
-        "======================= ID DISPO ====================== " +
-          idDisponibility
-      );
       const mongodb = await getDatabase();
       const reservation = await mongodb
         .db()
@@ -68,20 +64,21 @@ export default async function handler(
         .then((result) => result?._id);
 
       const addFavorite = await mongodb
-      .db()
-      .collection("patient")
-      .updateOne(
-        {
-          _id: new ObjectId(idUser?.toString()),
-        },
-        {
-          $push: {
-            favoris: {
-              _id: uuidv4(),
-              favoritedoc: idMedecin,
-            },
+        .db()
+        .collection("patient")
+        .updateOne(
+          {
+            _id: new ObjectId(idUser?.toString()),
           },
-        });
+          {
+            $push: {
+              favoris: {
+                _id: uuidv4(),
+                favoritedoc: idMedecin,
+              },
+            },
+          }
+        );
       res.redirect(`/doctors/details?id=${idMedecin?.toString()}`);
     }
   }

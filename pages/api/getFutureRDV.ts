@@ -3,12 +3,15 @@ import { getDatabase } from "../../src/database";
 import jwt_decode from "jwt-decode";
 import { userCategory, userId } from "../../src/userInfos";
 import { ObjectId } from "mongodb";
+import moment from "moment";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
+    const toDay = moment().format("DD/MM/YYYY");
+
     const mongodb = await getDatabase();
     const patientInfo = await mongodb
       .db()
@@ -38,17 +41,25 @@ export default async function handler(
           });
       })
     );
-    const dataResa: any = [];
+
+    const dataResaFuture: any = [];
+    const dataResaPast: any = [];
     detailsResa.forEach((element: any, index: number) => {
       element.forEach((detail: any) => {
         if (detail !== undefined) {
-          dataResa.push(detail);
+          if (moment(toDay).isAfter(`${detail.date}`)) {
+            dataResaPast.push(detail);
+          } else {
+            dataResaFuture.push(detail);
+          }
         }
       });
     });
 
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ data: dataResa }));
+    res.end(
+      JSON.stringify({ dataFuture: dataResaFuture, dataPast: dataResaPast })
+    );
   } else {
     res.statusCode = 405;
     res.end();
