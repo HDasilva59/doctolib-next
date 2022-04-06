@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const Layout: React.FC = ({ children }) => {
   return (
-    <div>
+    <div >
       <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
           <div className="container-fluid">
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -28,9 +28,9 @@ export const Layout: React.FC = ({ children }) => {
           </div>
       </nav>
 
-    <div className="container">
+
       {children}
-    </div>
+
 
 
 
