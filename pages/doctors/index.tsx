@@ -24,11 +24,14 @@ export default function Login(props: any) {
     const data = JSON.parse(props.medecin);
     return (
       <Layout>
-        <Link href="/">
-          <a>
-            <button>Back</button>
-          </a>
-        </Link>
+        <div className="container">
+          <Link href="/">
+            <a>
+             <button type="button" className="btn btn-primary">Back</button>
+            </a>
+          </Link>
+        </div>
+
         <div className="container">
           <div className="list-group">
             {data.map((element: any) => {
@@ -37,12 +40,14 @@ export default function Login(props: any) {
                   key={element._id}
                   href={`/doctors/details?id=${element._id}`}
                 >
-                  <a className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{element.lastName} {element.firstName}</h5>
-                    <small>{element.city}</small>
-                  </div>
-                  <p className="mb-1">{element.email}</p>
+                  <a className="list-group-item list-group-item-action shadow p-3 mb-5 bg-white rounded">
+                    <div className="d-flex w-100 justify-content-between ">
+                      <h5 className="mb-1">{element.lastName} {element.firstName}</h5>
+                      <small>{element.city}</small>
+                    </div>
+                    <div>
+                      <p className="mb-1">{element.email}</p>
+                    </div>
                   </a>
                 </Link>
               );
