@@ -11,14 +11,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
   let user;
   if (context.req.cookies.idTokken === undefined) {
-    user = null
-  }
-  else {
+    user = null;
+  } else {
     const decoded: any = jwt_decode(accessTokken);
-   user =  await userCategory(decoded.email)
- }
+    user = await userCategory(decoded.email);
+  }
   if (user === "medecin") {
-
     const idPatient = context?.params?.index;
     const mongodb = await getDatabase();
     const patientDetails = await mongodb
@@ -45,16 +43,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function DetailsPatient(props: any) {
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
-    return <Layout>
-      <div className="container">
-        <p>Last Name : {data.lastName}</p>
-        <p>First Name : {data.firstName}</p>
-        <p>Email : {data.email}</p>
-        <p>Phone : {data.phone}</p>
-        <p>City : {data.city}</p>
-      </div>
-    </Layout>;
+    return (
+      <Layout>
+        <div className="container">
+          <p>Last Name : {data.lastName}</p>
+          <p>First Name : {data.firstName}</p>
+          <p>Email : {data.email}</p>
+          <p>Phone : {data.phone}</p>
+          <p>City : {data.city}</p>
+        </div>
+      </Layout>
+    );
   } else if (props.errorCode) {
-    return <StopPage />
+    return <StopPage />;
   }
 }

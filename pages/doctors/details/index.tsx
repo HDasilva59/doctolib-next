@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const medecinDetails = await mongodb
     .db()
     .collection("medecin")
-    .findOne({ _id: new ObjectID(`${idMedecin}`)})
+    .findOne({ _id: new ObjectID(`${idMedecin}`) })
     .then((result) => result);
 
   let backUrl;
@@ -45,29 +45,45 @@ export default function DetailsPatient(props: any) {
         </Link>
         <div className="container">
           <div className="container small">
-    <div className="row">
-        <div className="col-xs-12 col-sm-6 col-md-6">
-            <div className="well well-sm">
-                <div className="row">
+            <div className="row">
+              <div className="col-xs-12 col-sm-6 col-md-6">
+                <div className="well well-sm">
+                  <div className="row">
                     <div className="col-sm-6 col-md-4">
-                        <img src="http://placehold.it/380x500" alt="" className="img-rounded img-responsive" />
+                      <img
+                        src="http://placehold.it/380x500"
+                        alt=""
+                        className="img-rounded img-responsive"
+                      />
                     </div>
                     <div className="col-sm-6 col-md-8">
-                        <h4>{data.lastName} {data.firstName}</h4>
-                        <small><cite title={`${data.firstName}`}>{data.city} <i className="glyphicon glyphicon-map-marker">
-                        </i></cite></small>
-                        <p>
-                            <i className="glyphicon glyphicon-envelope"></i>{data.email}
-                            <br />
-                            <i className="glyphicon glyphicon-phone"></i>{data.phone}
-                            <br />
-                            <i className="glyphicon glyphicon-gift"></i></p>
+                      <h4>
+                        {data.lastName} {data.firstName}
+                      </h4>
+                      <small>
+                        <cite title={`${data.firstName}`}>
+                          {data.city}{" "}
+                          <i className="glyphicon glyphicon-map-marker"></i>
+                        </cite>
+                      </small>
+                      <p>
+                        <i className="glyphicon glyphicon-envelope"></i>
+                        {data.email}
+                        <br />
+                        <i className="glyphicon glyphicon-phone"></i>
+                        {data.phone}
+                        <br />
+                        <i className="glyphicon glyphicon-gift"></i>
+                      </p>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
-</div><br /><br /><br />
+          </div>
+          <br />
+          <br />
+          <br />
           <h3>Disponibility :</h3>
           <table className="table">
             <thead>
@@ -86,45 +102,55 @@ export default function DetailsPatient(props: any) {
                       <td>{element.date}</td>
                       <td>{element.heure}</td>
                       <td>
-                           <>
-      <Button
-        color="primary"
-        type="button"
-        onClick={() => setModalOpen(!modalOpen)}
-      >
-        Reserve
-      </Button>
-      <Modal toggle={() => setModalOpen(!modalOpen)} isOpen={modalOpen}>
-        <div className=" modal-header">
-          <h5 className=" modal-title" id="exampleModalLabel">
-            Validation
-          </h5>
-          <button
-            aria-label="Close"
-            className=" close"
-            type="button"
-            onClick={() => setModalOpen(!modalOpen)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
-        </div>
-        <ModalBody>Confirm Your Reservation.</ModalBody>
-        <ModalFooter>
-          <Button
-            color="secondary"
-            type="button"
-            onClick={() => setModalOpen(!modalOpen)}
-          >
-            No
-            </Button>
-          <Link href={`/api/reservation?idDispo=${element._id}`}><a>
-          <Button color="primary" type="button">
-            Yes
-           </Button>
-           </a></Link>
-        </ModalFooter>
-      </Modal>
-    </>
+                        <>
+                          <Button
+                            color="primary"
+                            type="button"
+                            onClick={() => setModalOpen(!modalOpen)}
+                          >
+                            Reserve
+                          </Button>
+                          <Modal
+                            toggle={() => setModalOpen(!modalOpen)}
+                            isOpen={modalOpen}
+                          >
+                            <div className=" modal-header">
+                              <h5
+                                className=" modal-title"
+                                id="exampleModalLabel"
+                              >
+                                Validation
+                              </h5>
+                              <button
+                                aria-label="Close"
+                                className=" close"
+                                type="button"
+                                onClick={() => setModalOpen(!modalOpen)}
+                              >
+                                <span aria-hidden={true}>×</span>
+                              </button>
+                            </div>
+                            <ModalBody>Confirm Your Reservation.</ModalBody>
+                            <ModalFooter>
+                              <Button
+                                color="secondary"
+                                type="button"
+                                onClick={() => setModalOpen(!modalOpen)}
+                              >
+                                No
+                              </Button>
+                              <Link
+                                href={`/api/reservation?idDispo=${element._id}`}
+                              >
+                                <a>
+                                  <Button color="primary" type="button">
+                                    Yes
+                                  </Button>
+                                </a>
+                              </Link>
+                            </ModalFooter>
+                          </Modal>
+                        </>
                       </td>
                     </tr>
                   );
@@ -133,8 +159,6 @@ export default function DetailsPatient(props: any) {
             </tbody>
           </table>
         </div>
-
-
       </Layout>
     );
   } else if (props.errorCode) {

@@ -39,10 +39,12 @@ export default function Login(props: any) {
                 >
                   <a className="list-group-item list-group-item-action">
                     <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{element.lastName} {element.firstName}</h5>
-                    <small>{element.city}</small>
-                  </div>
-                  <p className="mb-1">{element.email}</p>
+                      <h5 className="mb-1">
+                        {element.lastName} {element.firstName}
+                      </h5>
+                      <small>{element.city}</small>
+                    </div>
+                    <p className="mb-1">{element.email}</p>
                   </a>
                 </Link>
               );
