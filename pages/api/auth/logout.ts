@@ -19,8 +19,6 @@ export default async function handler(
         path: "/",
       })
     );
-
-    res.setHeader("Content-Type", "application/json");
     res.redirect(url);
   } else {
     res.statusCode = 405;
