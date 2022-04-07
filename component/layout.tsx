@@ -11,7 +11,7 @@ export const Layout: React.FC = ({ children }) => {
      const response = await fetch("/api/getInfoUser").then((response) => response.json());
      setConnexion(connnectedResponse.toString());
      if (connnectedResponse.toString() === "true") {
-        setInfoUser(`${response.lastName} ${response.firstName}`);
+        setInfoUser(`${response?.lastName} ${response?.firstName}`);
      }
 
     }

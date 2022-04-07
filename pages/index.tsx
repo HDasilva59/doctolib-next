@@ -28,14 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const arrayFilter = Array.from(new Set(city));
 
   const typeArrayFilter = arrayFilter.join();
-  console.log(
-    "============================ARRAY FILTER JOIN ===============" +
-      typeArrayFilter
-  );
 
-  console.log(
-    "==========================ARRAY FILTER===================" + arrayFilter
-  );
   if (accessTokken !== undefined) {
     decoded = jwt_decode(accessTokken.toString());
     user = await userCategory(decoded.email);
@@ -53,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   } else if (user === "patient") {
     idUser = await userIdPatient(decoded.email);
+    console.log("----------------------------------",decoded.email)
     return {
       props: {
         category: "patient",
@@ -78,7 +72,6 @@ export default function Home(props: any) {
   const [profile, setProfile] = useState(props.category);
 
   const arrayCities = props.arrayCity.split(",");
-  console.log(arrayCities);
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)

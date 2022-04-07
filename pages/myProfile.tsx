@@ -34,11 +34,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .findOne({ email: decoded.email })
       .then((result) => result?.prescriptions);
 
-
+    let prescription;
+    if (patientPrescriptions !== null) {
+      prescription = JSON.stringify(patientPrescriptions)
+    } else {
+      prescription = null
+    }
     return {
       props: {
         patient: JSON.stringify(patientInfo),
-        arrayPrescriptions: JSON.stringify(patientPrescriptions)
+        arrayPrescriptions: prescription
       },
     };
   } else {
@@ -115,7 +120,7 @@ export default function Login(props: any) {
               Modify
             </button>
           </form>
-           <GeneratePDF data={{ dataPrescriptions}}/>
+          {dataPrescriptions !== null ? <GeneratePDF data={{ dataPrescriptions}}/> : <></>}
         </div>
       </Layout>
     );
