@@ -119,3 +119,18 @@ width: 400px;
 .iconeDelete{
   margin-left: 20px;
 }
+
+.list-group-item{
+  transition: box-shadow .3s;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.list-group{
+  border-radius: 20px;
+
+}
+.list-group :hover{
+  box-shadow: 5px 5px 5px 1px rgba(0, 0, 255, .2);
+
+}
