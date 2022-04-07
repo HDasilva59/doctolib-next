@@ -27,20 +27,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .findOne({ _id: new ObjectID(idMedecin?.toString())})
       .then((result) => result?.patients);
 
-    const patientDetails = await Promise.all(
-      arrayPatients.map(async (element: any) => {
-        return await mongodb
-          .db()
-          .collection("patient")
-          .findOne({ _id: new ObjectID(element.patientId?.toString())})
-      })
-    );
-    const arrayPatientsString = JSON.stringify(patientDetails);
-    return {
-      props: {
-        patient: arrayPatientsString,
-      },
-    };
+    if (arrayPatients !== undefined) {
+      const patientDetails = await Promise.all(
+        arrayPatients.map(async (element: any) => {
+          return await mongodb
+            .db()
+            .collection("patient")
+            .findOne({ _id: new ObjectID(element.patientId?.toString()) })
+        })
+      );
+      const arrayPatientsString = JSON.stringify(patientDetails);
+      return {
+        props: {
+          patient: arrayPatientsString,
+        },
+      };
+    } else {
+      return {
+        props: {
+          patient: "aucun",
+        },
+      };
+    }
   } else {
     return {
       props: {
@@ -53,36 +61,42 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function Login(props: any) {
   if (props.patient !== null) {
-    const data = JSON.parse(props.patient);
-    console.log(data)
-    return (
+    if (props.patient !== "aucun") {
+      const data = JSON.parse(props.patient);
+      console.log(data)
+      return (
+        <Layout>
+          <Link href="/">
+            <a>
+              <Button variant="dark">Back</Button>
+            </a>
+          </Link>
+          <div className="container divcontainer">
+            <ul className="list-group">
+              {data.map((element: any) => {
+                return (
+                  <Link
+                    key={element._id}
+                    href={`/ListPatient/details/${element._id}`}
+                  >
+                    <a>
+                      <li className="list-group-item">
+                        Last Name: {element.lastName}, First Name:{" "}
+                        {element.firstName}
+                      </li>
+                    </a>
+                  </Link>
+                );
+              })}
+            </ul>
+          </div>
+        </Layout>
+      );
+    } else {
       <Layout>
-        <Link href="/">
-          <a>
-            <Button variant="dark">Back</Button>
-          </a>
-        </Link>
-        <div className="container divcontainer">
-          <ul className="list-group">
-            {data.map((element: any) => {
-              return (
-                <Link
-                  key={element._id}
-                  href={`/ListPatient/details/${element._id}`}
-                >
-                  <a>
-                    <li className="list-group-item">
-                      Last Name: {element.lastName}, First Name:{" "}
-                      {element.firstName}
-                    </li>
-                  </a>
-                </Link>
-              );
-            })}
-          </ul>
-        </div>
+
       </Layout>
-    );
+    }
   } else if (props.errorCode) {
     return <StopPage />;
   }
