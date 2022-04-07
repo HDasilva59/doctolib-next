@@ -4,12 +4,24 @@ import Link from "next/link";
 import { StopPage } from "../../../component/404";
 import { Layout } from "../../../component/layout";
 import { getDatabase } from "../../../src/database";
-import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
+import {Modal, ModalBody, ModalFooter } from "reactstrap";
 import { useState } from "react";
+import jwt_decode from "jwt-decode";
+import { userCategory } from "../../../src/userInfos";
+import { Button, Card } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const idMedecin = context.query.id;
   const mongodb = await getDatabase();
+  const accessTokken = context.req.cookies.idTokken;
+  let user;
+  if (context.req.cookies.idTokken === undefined) {
+    user = null;
+  } else {
+    const decoded: any = jwt_decode(accessTokken);
+    user = await userCategory(decoded.email);
+  }
+
   const medecinDetails = await mongodb
     .db()
     .collection("medecin")
@@ -27,6 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       patient: JSON.stringify(medecinDetails),
       speciality: backUrl,
+      category:user
     },
   };
 };
@@ -40,47 +53,19 @@ export default function DetailsPatient(props: any) {
       <Layout>
         <Link href={`${props.speciality}`}>
           <a>
-            <button> Get back</button>
+            <Button variant="dark">Back</Button>
           </a>
         </Link>
         <div className="container">
-          <div className="container small">
-            <div className="row">
-              <div className="col-xs-12 col-sm-6 col-md-6">
-                <div className="well well-sm">
-                  <div className="row">
-                    <div className="col-sm-6 col-md-4">
-                      <img
-                        src="http://placehold.it/380x500"
-                        alt=""
-                        className="img-rounded img-responsive"
-                      />
-                    </div>
-                    <div className="col-sm-6 col-md-8">
-                      <h4>
-                        {data.lastName} {data.firstName}
-                      </h4>
-                      <small>
-                        <cite title={`${data.firstName}`}>
-                          {data.city}{" "}
-                          <i className="glyphicon glyphicon-map-marker"></i>
-                        </cite>
-                      </small>
-                      <p>
-                        <i className="glyphicon glyphicon-envelope"></i>
-                        {data.email}
-                        <br />
-                        <i className="glyphicon glyphicon-phone"></i>
-                        {data.phone}
-                        <br />
-                        <i className="glyphicon glyphicon-gift"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                <Card className="cardInfoUsers">
+                  <Card.Header as="h5">Dr {data.lastName} {data.firstName}</Card.Header>
+                <Card.Body>
+                    <Card.Title>{data.speciality}</Card.Title>
+                  <Card.Text>
+                    {data.city} , {data.tarif} € / hours
+                  </Card.Text>
+                </Card.Body>
+              </Card>
           <br />
           <br />
           <br />
@@ -103,13 +88,18 @@ export default function DetailsPatient(props: any) {
                       <td>{element.heure}</td>
                       <td>
                         <>
-                          <Button
+                          {props.category === "patient" ? <Button
                             color="primary"
                             type="button"
                             onClick={() => setModalOpen(!modalOpen)}
                           >
                             Reserve
-                          </Button>
+                          </Button> : <Link href="/api/auth/loginpatients"><a><Button
+                            color="primary"
+                            type="button"
+                          >
+                            Reserve
+                          </Button></a></Link>}
                           <Modal
                             toggle={() => setModalOpen(!modalOpen)}
                             isOpen={modalOpen}

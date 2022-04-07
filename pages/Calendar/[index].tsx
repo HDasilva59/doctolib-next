@@ -9,6 +9,7 @@ import jwt_decode from "jwt-decode";
 import { StopPage } from "../../component/404";
 import { Layout } from "../../component/layout";
 import { DisponibilityForm } from "../../component/DisponibilityForm";
+import { Button, ListGroup } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -90,21 +91,26 @@ export default function Calendar(props: any) {
                       if (element.reserved === true) {
                         return (
                           <div key={element._id}>
-                            <input
+                            <ListGroup>
+                              <ListGroup.Item variant="success">
+                                <input
                               onClick={(event) => changeArraySelection(event)}
                               className="form-check-input"
                               type="checkbox"
                               value={element._id}
                               id={element._id}
-                            />
-                            <Link href={`/Calendar/Information/${element._id}`}>
-                              <a>
-                                <li className="list-group-item-success">
+                                />
+                                <div className="row">
+                                  <div className="col-6 dispo">
                                   Date: {element.date}, Heure: {element.heure}{" "}
                                   RESERVED
-                                </li>
-                              </a>
-                            </Link>
+                                  </div>
+                                  <div className="col-6 buttonInfo">
+                                    <Button href={`/Calendar/Information/${element._id}`} variant="outline-success">Info</Button>
+                                  </div>
+                                </div>
+                              </ListGroup.Item>
+                            </ListGroup>
                           </div>
                         );
                       }
@@ -119,16 +125,25 @@ export default function Calendar(props: any) {
                       if (element.reserved === false) {
                         return (
                           <div key={element._id}>
-                            <input
+                            <ListGroup>
+                              <ListGroup.Item variant="dark">
+                               <input
                               onClick={(event) => changeArraySelection(event)}
                               className="form-check-input"
                               type="checkbox"
                               value={element._id}
                               id={element._id}
                             />
-                            <li className="list-group-item-warning">
-                              Date: {element.date}, Heure: {element.heure}{" "}
-                            </li>
+                             <div className="row notreserved">
+                                  <div className="col-6 dispo">
+                                  Date: {element.date}, Heure: {element.heure}{" "}
+                                  </div>
+                                  <div className="col-6 buttonInfo">
+
+                                  </div>
+                                </div>
+                            </ListGroup.Item>
+                            </ListGroup>
                           </div>
                         );
                       }

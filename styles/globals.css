@@ -95,3 +95,20 @@ width: 400px;
     text-align: center;
 
 }
+
+.buttonInfo{
+  text-align: end;
+}
+
+.dispo{
+  text-align: center;
+}
+
+.notreserved{
+  height: 38px;
+}
+
+.cardInfoUsers{
+  background-image: url("/images/backgrounddoctor6.png");
+  background-size: 1296px 200px;
+}

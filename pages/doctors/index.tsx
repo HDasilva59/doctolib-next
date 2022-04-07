@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getDatabase } from "../../src/database";
 import { StopPage } from "../../component/404";
 import { Layout } from "../../component/layout";
+import { Button, Card } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const mongodb = await getDatabase();
@@ -26,27 +27,26 @@ export default function Login(props: any) {
       <Layout>
         <Link href="/">
           <a>
-            <button>Back</button>
+            <Button variant="dark">Back</Button>
           </a>
         </Link>
         <div className="container">
           <div className="list-group">
             {data.map((element: any) => {
               return (
-                <Link
-                  key={element._id}
-                  href={`/doctors/details?id=${element._id}`}
-                >
-                  <a className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                      <h5 className="mb-1">
-                        {element.lastName} {element.firstName}
-                      </h5>
-                      <small>{element.city}</small>
-                    </div>
-                    <p className="mb-1">{element.email}</p>
-                  </a>
-                </Link>
+                <Card key={element._id}>
+                  <Card.Header as="h5">Dr {element.lastName} {element.firstName}</Card.Header>
+                <Card.Body>
+                    <Card.Title>{element.speciality}</Card.Title>
+                  <Card.Text>
+                    {element.city} , {element.tarif} € / hours
+                  </Card.Text>
+                    <Button variant="primary">
+                      <Link href={`/doctors/details?id=${element._id}`}><a>
+                        More Infos
+                      </a></Link></Button>
+                </Card.Body>
+              </Card>
               );
             })}
           </div>

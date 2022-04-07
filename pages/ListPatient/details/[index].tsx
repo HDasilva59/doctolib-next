@@ -1,13 +1,14 @@
 import { ObjectID } from "bson";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import { StopPage } from "../../../component/404";
 import { Layout } from "../../../component/layout";
 import { getDatabase } from "../../../src/database";
 import { userCategory } from "../../../src/userInfos";
 import jwt_decode from "jwt-decode";
 
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
+
   const accessTokken = context.req.cookies.idTokken;
   let user;
   if (context.req.cookies.idTokken === undefined) {

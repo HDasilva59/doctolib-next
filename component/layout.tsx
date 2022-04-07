@@ -1,44 +1,33 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Container, Dropdown, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 export const Layout: React.FC = ({ children }) => {
+  const [connexion, setConnexion] = useState("false");
+   async function getConnexion() {
+     const connnectedResponse = await fetch("/api/isConnected").then((response) => response.json());
+      setConnexion(connnectedResponse.toString())
+    }
+  useEffect(() => {
+    getConnexion();
+  },[])
   return (
-    <div>
-      <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapsibleNavbar"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <Link href="/">
-            <a className="navbar-brand">Home</a>
-          </Link>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <Link href="/login">
-                <a className="nav-link active">
-                  <li className="nav-item">Login</li>
-                </a>
-              </Link>
-              <Link href="/api/auth/logout">
-                <a className="nav-link active">
-                  <li className="nav-item">Logout</li>
-                </a>
-              </Link>
-              <Link href="/myProfile">
-                <a className="nav-link active">
-                  <li className="nav-item">My profile</li>
-                </a>
-              </Link>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
+    <>
+      <Navbar bg="primary" expand="lg">
+        <Container>
+          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
+            <Navbar.Text>
+        {connexion === "false" ?  <Nav.Link href="/login">Login</Nav.Link>: <NavDropdown  title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/myProfile">My Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/api/auth/logout">Logout</NavDropdown.Item>
+              </NavDropdown>}
+      </Navbar.Text>
+          </Navbar.Collapse>
+        </Container>
+    </Navbar>
       {children}
-    </div>
+    </>
   );
 };
