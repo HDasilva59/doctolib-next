@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         category: null,
-        arrayCity: typeArrayFilter
+        arrayCity: typeArrayFilter,
       },
     };
   } else if (user === "patient") {
@@ -79,8 +79,7 @@ export default function Home(props: any) {
   const [profile, setProfile] = useState(props.category);
 
   const arrayCities = props.arrayCity.split(",");
-  console.log(arrayCities)
-
+  console.log(arrayCities);
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)
@@ -119,7 +118,7 @@ export default function Home(props: any) {
             Book a physical consultation with a health professional
           </h1>
           <div className="container" style={{ textAlign: "center" }}>
-            <form action="/doctors">
+            <form className="form-group" action="/doctors">
               <label>
                 <input
                   className={styles.inputtext}
@@ -127,13 +126,14 @@ export default function Home(props: any) {
                   name="name"
                   placeholder="Find a doctor"
                 />
-                <label>Choose a city:</label>
-                <select name="city" id="city">
-                  <option value="">--Please choose an option--</option>
+                <select className={styles.inputtext} name="city" id="city">
+                  <option value="">--Please choose a city--</option>
                   {arrayCities.map((element: any) => {
-                    return(
-                      <option value={element} key={element}>{element} </option>
-                    )
+                    return (
+                      <option value={element} key={element}>
+                        {element}{" "}
+                      </option>
+                    );
                   })}
                 </select>
               </label>
@@ -240,14 +240,15 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                           <span className="material-icons iconeDelete">
-                          <Link
-                            href={`/api/deleteDisponibility?data=${JSON.stringify(
-                              [element.id]
-                            )}`}
-                          >
-                            <a>delete </a></Link>
-                          </span>
+                            <span className="material-icons iconeDelete">
+                              <Link
+                                href={`/api/deleteDisponibility?data=${JSON.stringify(
+                                  [element.id]
+                                )}`}
+                              >
+                                <a>delete </a>
+                              </Link>
+                            </span>
                           </li>
                         );
                       })}

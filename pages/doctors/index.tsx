@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const arrayMedecins = await mongodb
     .db()
     .collection("medecin")
-    .find({ speciality: context.query.name })
+    .find({ speciality: context.query.name, city: context?.query.city })
     .toArray();
   const arrayMedecinsString = JSON.stringify(arrayMedecins);
   return {
@@ -35,18 +35,21 @@ export default function Login(props: any) {
             {data.map((element: any) => {
               return (
                 <Card key={element._id}>
-                  <Card.Header as="h5">Dr {element.lastName} {element.firstName}</Card.Header>
-                <Card.Body>
+                  <Card.Header as="h5">
+                    Dr {element.lastName} {element.firstName}
+                  </Card.Header>
+                  <Card.Body>
                     <Card.Title>{element.speciality}</Card.Title>
-                  <Card.Text>
-                    {element.city} , {element.tarif} € / hours
-                  </Card.Text>
+                    <Card.Text>
+                      {element.city} , {element.tarif} € / hours
+                    </Card.Text>
                     <Button variant="primary">
-                      <Link href={`/doctors/details?id=${element._id}`}><a>
-                        More Infos
-                      </a></Link></Button>
-                </Card.Body>
-              </Card>
+                      <Link href={`/doctors/details?id=${element._id}`}>
+                        <a>More Infos</a>
+                      </Link>
+                    </Button>
+                  </Card.Body>
+                </Card>
               );
             })}
           </div>
