@@ -5,6 +5,9 @@ import { Layout } from "../../../component/layout";
 import { getDatabase } from "../../../src/database";
 import { userCategory } from "../../../src/userInfos";
 import jwt_decode from "jwt-decode";
+import { Card } from "react-bootstrap";
+import { useState } from "react";
+import { PrescriptionsForm } from "../../../component/PrescriptionsForm";
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -42,17 +45,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function DetailsPatient(props: any) {
+  const [afficheForm, setAfficheForm] = useState(<></>);
+
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
     return (
       <Layout>
         <div className="container">
-          <p>Last Name : {data.lastName}</p>
-          <p>First Name : {data.firstName}</p>
-          <p>Email : {data.email}</p>
-          <p>Phone : {data.phone}</p>
-          <p>City : {data.city}</p>
+          <Card className="cardInfoUsers">
+                  <Card.Header as="h5">{data.lastName} {data.firstName}</Card.Header>
+                <Card.Body>
+                    <Card.Title>{data.email}</Card.Title>
+                  <Card.Text>
+                    {data.city} , {data.phone}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
         </div>
+        <button onClick={() => setAfficheForm(< PrescriptionsForm idPatient={data._id}/>)}>
+            Add a prescription
+          </button>
+        <div>{afficheForm}</div>
       </Layout>
     );
   } else if (props.errorCode) {

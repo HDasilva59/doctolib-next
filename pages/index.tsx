@@ -7,8 +7,6 @@ import { Layout } from "../component/layout";
 import { userCategory, userId, userIdPatient } from "../src/userInfos";
 import styles from "../styles/Home.module.css";
 import jwt_decode from "jwt-decode";
-import { getDatabase } from "../src/database";
-import moment from "moment";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let user;
@@ -150,7 +148,16 @@ export default function Home(props: any) {
                 </a>
               </Link>
             </div>
-
+          <div className={styles.gridleftDoctorPatient}>
+              <Link href={`/ListPatient/${props.userId}`}>
+                <a className={styles.card}>
+                  <h2>My Patients</h2>
+                  <p>
+                    Go to my list of patients
+                  </p>
+                </a>
+              </Link>
+            </div>
           </div>
         </main>
       </Layout>

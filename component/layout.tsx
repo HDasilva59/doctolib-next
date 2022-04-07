@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Container, Dropdown, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import DeleteIcon from '@mui/icons-material/Delete';
-
 
 export const Layout: React.FC = ({ children }) => {
   const [connexion, setConnexion] = useState("false");

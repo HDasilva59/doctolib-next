@@ -2,15 +2,11 @@ import { ObjectID } from "bson";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { getDatabase } from "../../src/database";
-import cookie from "cookie";
-import { valideTokkenId } from "../../src/verifTokken";
 import { userCategory } from "../../src/userInfos";
-import { useEffect, useState } from "react";
 import { StopPage } from "../../component/404";
 import { Layout } from "../../component/layout";
 import jwt_decode from "jwt-decode";
 import { Button } from "react-bootstrap";
-import GeneratePDF from "../../component/Pdfgenerator";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -28,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const arrayPatients = await mongodb
       .db()
       .collection("medecin")
-      .findOne({ _id: new ObjectID(`${idMedecin}`) })
+      .findOne({ _id: new ObjectID(idMedecin?.toString())})
       .then((result) => result?.patients);
 
     const patientDetails = await Promise.all(
@@ -36,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return await mongodb
           .db()
           .collection("patient")
-          .findOne({ _id: element });
+          .findOne({ _id: new ObjectID(element.patientId?.toString())})
       })
     );
     const arrayPatientsString = JSON.stringify(patientDetails);
@@ -58,6 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function Login(props: any) {
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
+    console.log(data)
     return (
       <Layout>
         <Link href="/">
@@ -65,7 +62,6 @@ export default function Login(props: any) {
             <Button variant="dark">Back</Button>
           </a>
         </Link>
-        <GeneratePDF data={{ name: "maxime" }}/>
         <div className="container divcontainer">
           <ul className="list-group">
             {data.map((element: any) => {
