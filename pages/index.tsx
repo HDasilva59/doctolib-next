@@ -1,4 +1,3 @@
-import { request } from "http";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -7,14 +6,37 @@ import { Layout } from "../component/layout";
 import { userCategory, userId, userIdPatient } from "../src/userInfos";
 import styles from "../styles/Home.module.css";
 import jwt_decode from "jwt-decode";
+import { getDatabase } from "../src/database";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let user;
   let idUser;
   let decoded: any;
-
   const accessTokken = context.req.cookies.idTokken;
 
+  const mongodb = await getDatabase();
+  const medecin = await mongodb
+    .db()
+    .collection("medecin")
+    .find()
+    .toArray()
+    .then((result) => result);
+
+  const city = medecin?.map(function (ele: any, pos: any) {
+    return ele.city;
+  });
+
+  const arrayFilter = Array.from(new Set(city));
+
+  const typeArrayFilter = arrayFilter.join();
+  console.log(
+    "============================ARRAY FILTER JOIN ===============" +
+      typeArrayFilter
+  );
+
+  console.log(
+    "==========================ARRAY FILTER===================" + arrayFilter
+  );
   if (accessTokken !== undefined) {
     decoded = jwt_decode(accessTokken.toString());
     user = await userCategory(decoded.email);
@@ -27,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         category: null,
+        arrayCity: typeArrayFilter,
       },
     };
   } else if (user === "patient") {
@@ -35,6 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         category: "patient",
         idPatient: idUser?.toString(),
+        arrayCity: typeArrayFilter,
       },
     };
   } else {
@@ -42,6 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         category: user,
         userId: idUser?.toString(),
+        arrayCity: null,
       },
     };
   }
@@ -52,6 +77,9 @@ export default function Home(props: any) {
   const [arrayPreviousRDV, setarrayPreviousRDV] = useState([]);
   const [arrayFavoris, setarrayFavoris] = useState([]);
   const [profile, setProfile] = useState(props.category);
+
+  const arrayCities = props.arrayCity.split(",");
+  console.log(arrayCities);
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)
@@ -90,7 +118,7 @@ export default function Home(props: any) {
             Book a physical consultation with a health professional
           </h1>
           <div className="container" style={{ textAlign: "center" }}>
-            <form action="/doctors">
+            <form className="form-group" action="/doctors">
               <label>
                 <input
                   className={styles.inputtext}
@@ -98,6 +126,16 @@ export default function Home(props: any) {
                   name="name"
                   placeholder="Find a doctor"
                 />
+                <select className={styles.inputtext} name="city" id="city">
+                  <option value="">--Please choose a city--</option>
+                  {arrayCities.map((element: any) => {
+                    return (
+                      <option value={element} key={element}>
+                        {element}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
               </label>
               <input
                 className={styles.inputsubmit}
@@ -118,9 +156,7 @@ export default function Home(props: any) {
               <Link href="/api/auth/login">
                 <a className={styles.card}>
                   <h2>Are you a professional &rarr;</h2>
-                  <p>
-                    Get connected and gain comfort and working time
-                  </p>
+                  <p>Get connected and gain comfort and working time</p>
                 </a>
               </Link>
             </div>
@@ -142,19 +178,7 @@ export default function Home(props: any) {
               <Link href={`/Calendar/${props.userId}`}>
                 <a className={styles.card}>
                   <h2>My Calendar</h2>
-                  <p>
-                    Go to my calendar
-                  </p>
-                </a>
-              </Link>
-            </div>
-          <div className={styles.gridleftDoctorPatient}>
-              <Link href={`/ListPatient/${props.userId}`}>
-                <a className={styles.card}>
-                  <h2>My Patients</h2>
-                  <p>
-                    Go to my list of patients
-                  </p>
+                  <p>Go to my calendar</p>
                 </a>
               </Link>
             </div>
@@ -202,15 +226,7 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                            <Link
-                            href={`/api/deleteDisponibility?data=${JSON.stringify(
-                              [element.id]
-                            )}`}
-                          >
-                            <a><span className="material-icons">
-                            delete
-                            </span></a></Link>
-
+                            <> X </>
                           </li>
                         );
                       })}
@@ -224,14 +240,15 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                           <span className="material-icons iconeDelete">
-                          <Link
-                            href={`/api/deleteDisponibility?data=${JSON.stringify(
-                              [element.id]
-                            )}`}
-                          >
-                            <a>delete </a></Link>
-                          </span>
+                            <span className="material-icons iconeDelete">
+                              <Link
+                                href={`/api/deleteDisponibility?data=${JSON.stringify(
+                                  [element.id]
+                                )}`}
+                              >
+                                <a>delete </a>
+                              </Link>
+                            </span>
                           </li>
                         );
                       })}
@@ -242,12 +259,16 @@ export default function Home(props: any) {
                     <ul className="list-group">
                       {arrayFavoris.map((element: any) => {
                         return (
-                          <Link key={element.id} href={`/doctors/details?id=${element._id}`}>
+                          <Link
+                            key={element.id}
+                            href={`/doctors/details?id=${element._id}`}
+                          >
                             <a>
-                          <li className="list-group-item" >
-                            {element.lastName} {element.firstName}
+                              <li className="list-group-item">
+                                {element.lastName} {element.firstName}
+                                <> X </>
                               </li>
-                          </a>
+                            </a>
                           </Link>
                         );
                       })}
