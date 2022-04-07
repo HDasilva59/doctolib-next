@@ -31,7 +31,6 @@ export default function Login(props: { props: any }) {
                 </a>
               </Link>
             </div>
-            <h2>Bonne visite !</h2>
           </main>
         </div>
       </div>

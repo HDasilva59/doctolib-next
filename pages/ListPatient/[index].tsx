@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { StopPage } from "../../component/404";
 import { Layout } from "../../component/layout";
 import jwt_decode from "jwt-decode";
+import { Button } from "react-bootstrap";
+import GeneratePDF from "../../component/Pdfgenerator";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -60,9 +62,10 @@ export default function Login(props: any) {
       <Layout>
         <Link href="/">
           <a>
-            <button>Back</button>
+            <Button variant="dark">Back</Button>
           </a>
         </Link>
+        <GeneratePDF data={{ name: "maxime" }}/>
         <div className="container divcontainer">
           <ul className="list-group">
             {data.map((element: any) => {

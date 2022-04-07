@@ -80,6 +80,7 @@
   background-image: url("/images/backgrounddoctor3.png");
   margin-bottom: 20px;
   margin-top: 50px ;
+  border-radius: 20px;
 }
 
 .inputtext {
@@ -117,6 +118,7 @@
   background-size: contain;
 background-repeat: no-repeat;
 margin-bottom: 20px;
+border-radius: 20px;
 }
 
 .gridright {
@@ -127,6 +129,7 @@ margin-bottom: 20px;
   max-width: viewport-length;
   background-image: url("/images/backgrounddoctor2.png");
   margin-bottom: 20px;
+  border-radius: 20px;
 }
 
 .card {
@@ -177,4 +180,26 @@ margin-bottom: 20px;
   border: 1px;
 }
 
-
+.gridrightDoctor{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  flex-wrap: wrap;
+  max-width: viewport-length;
+  background-image: url("/images/backgrounddoctor4.png");
+  margin-bottom: 20px;
+  margin-top: 100px;
+  border-radius: 20px;
+}
+.gridrightDoctorPatient{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  flex-wrap: wrap;
+  max-width: viewport-length;
+  background-image: url("/images/backgrounddoctor5.png");
+  margin-bottom: 20px;
+  margin-top: 100px;
+  border-radius: 20px;
+  background-size: 1300px 200px;
+}

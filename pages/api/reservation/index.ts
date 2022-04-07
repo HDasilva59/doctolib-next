@@ -13,11 +13,11 @@ export default async function handler(
     const accessTokken = req.cookies.idTokken;
     let user;
     let idUser;
-
+    let decoded: any;
     if (req.cookies.idTokken === undefined) {
       user = null;
     } else {
-      const decoded: any = jwt_decode(accessTokken);
+      decoded = jwt_decode(accessTokken);
       user = await userCategory(decoded.email);
       idUser = await userIdPatient(decoded.email);
     }
@@ -79,6 +79,31 @@ export default async function handler(
             },
           }
         );
+
+      const medecin = await mongodb
+        .db()
+        .collection("medecin")
+        .findOne({
+          _id: idMedecin,
+        })
+        .then((result) => result);
+
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(`${process.env.SENDGRID_API_KEY}`);
+      const msg = {
+        to: `${decoded.email}`,
+        from: `mmansuy@norauto.fr`,
+        subject: "Confirm Reservation",
+        text: `You have an appointment with Mr ${medecin?.lastName}`,
+      };
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent !!");
+        })
+        .catch((error: any) => {
+          console.error(error);
+        });
       res.redirect(`/doctors/details?id=${idMedecin?.toString()}`);
     }
   }

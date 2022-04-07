@@ -6,6 +6,7 @@ import { getDatabase } from "../../../src/database";
 import { Layout } from "../../../component/layout";
 import { StopPage } from "../../../component/404";
 import Link from "next/link";
+import { Button, Card } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -55,46 +56,21 @@ export default function Calendar(props: any) {
       <Layout>
         <Link href={`${props.lastURL}`}>
           <a>
-            <button>Back</button>
+            <Button variant="dark">Back</Button>
           </a>
         </Link>
-        <div className="container small">
-          <div className="row">
-            <div className="col-xs-12 col-sm-6 col-md-6">
-              <div className="well well-sm">
-                <div className="row">
-                  <div className="col-sm-6 col-md-4">
-                    <img
-                      src="http://placehold.it/380x500"
-                      alt=""
-                      className="img-rounded img-responsive"
-                    />
-                  </div>
-                  <div className="col-sm-6 col-md-8">
-                    <h4>
-                      {data.lastName} {data.firstName}
-                    </h4>
-                    <small>
-                      <cite title={`${data.firstName}`}>
-                        {data.city}{" "}
-                        <i className="glyphicon glyphicon-map-marker"></i>
-                      </cite>
-                    </small>
-                    <p>
-                      <i className="glyphicon glyphicon-envelope"></i>
-                      {data.email}
-                      <br />
-                      <i className="glyphicon glyphicon-phone"></i>
-                      <a href="http://www.jquery2dotnet.com">{data.phone}</a>
-                      <br />
-                      <i className="glyphicon glyphicon-gift"></i>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="container">
+                <Card className="cardInfoUsers">
+                  <Card.Header as="h5">Dr {data.lastName} {data.firstName}</Card.Header>
+            <Card.Body>
+
+                    <Card.Title>{data.email}</Card.Title>
+                  <Card.Text>
+                    {data.city} , phone : {data.phone}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+        </div><br /><br />
         <form
           className="container"
           method="POST"
