@@ -1,4 +1,3 @@
-import { request } from "http";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -7,14 +6,28 @@ import { Layout } from "../component/layout";
 import { userCategory, userId, userIdPatient } from "../src/userInfos";
 import styles from "../styles/Home.module.css";
 import jwt_decode from "jwt-decode";
+import { getDatabase } from "../src/database";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let user;
   let idUser;
   let decoded: any;
-
   const accessTokken = context.req.cookies.idTokken;
 
+  const mongodb = await getDatabase();
+  const medecin = await mongodb
+  .db()
+  .collection("medecin")
+  .find()
+  .toArray()
+  .then((result) => result);
+
+const city = medecin?.map(function (ele: any, pos: any) {
+  return ele.city;
+});
+
+const arrayFilter = Array.from(new Set(city));
+console.log("==========================ARRAY FILTER===================" + arrayFilter)
   if (accessTokken !== undefined) {
     decoded = jwt_decode(accessTokken.toString());
     user = await userCategory(decoded.email);
@@ -35,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         category: "patient",
         idPatient: idUser?.toString(),
+        arrayCity: arrayFilter.join(","),
       },
     };
   } else {
@@ -42,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         category: user,
         userId: idUser?.toString(),
+        arrayCity: arrayFilter.join(","),
       },
     };
   }
@@ -52,6 +67,16 @@ export default function Home(props: any) {
   const [arrayPreviousRDV, setarrayPreviousRDV] = useState([]);
   const [arrayFavoris, setarrayFavoris] = useState([]);
   const [profile, setProfile] = useState(props.category);
+
+  const arrayCities = props.arrayCity.split(',')
+  console.log("=========================ARRAY CITY================" + arrayCities)
+  async function cityList(){
+    const citiesWithDuplicata = arrayCities.map((element:any) => element.city)
+    const cityNotDuplicated = citiesWithDuplicata.filter((v:any,i:any) => citiesWithDuplicata.indexOf(v) === i)
+    return (
+      cityNotDuplicated.map((element:any) => {<option value={element}>{element}</option>})
+    )
+  }
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)
@@ -98,6 +123,11 @@ export default function Home(props: any) {
                   name="name"
                   placeholder="Find a doctor"
                 />
+                <label>Choose a city:</label>
+                  <select name="city" id="city">
+                      <option value="">--Please choose an option--</option>
+                      {cityList()}
+                  </select>
               </label>
               <input
                 className={styles.inputsubmit}
