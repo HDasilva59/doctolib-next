@@ -195,6 +195,8 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
+                            <> X </>
+
                           </li>
                         );
                       })}
@@ -208,6 +210,7 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
+                            <> X </>
                           </li>
                         );
                       })}
@@ -222,6 +225,7 @@ export default function Home(props: any) {
                             <a>
                           <li className="list-group-item" >
                             {element.lastName} {element.firstName}
+                            <> X </>
                               </li>
                           </a>
                           </Link>

@@ -54,6 +54,42 @@ export default async function handler(
             }
           );
       }
+    }else if (user === "patient") {
+      const data = req.query.data.toString();
+      const dataArray = JSON.parse(data);
+      const mongodb = await getDatabase();
+
+      for (let index = 0; index < dataArray.length; index++) {
+        const modifReservationStatu = await mongodb
+        .db()
+        .collection("medecin")
+        .updateOne(
+          {
+            "disponibility._id": idDisponibility,
+          },
+          {
+            $set: {
+              "disponibility.$.reserved": true,
+            },
+          }
+        );
+
+        await mongodb
+          .db()
+          .collection("patient")
+          .updateOne(
+            {
+              "reservation.resa": dataArray[index],
+            },
+            {
+              $pull: {
+                reservation: {
+                  resa: dataArray[index],
+                },
+              },
+            }
+          );
+      }
     }
     res.redirect(`${req.headers.referer}`);
   } else {
