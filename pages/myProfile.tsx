@@ -7,6 +7,7 @@ import { userCategory } from "../src/userInfos";
 import styles from "../styles/Home.module.css";
 import jwt_decode from "jwt-decode";
 import GeneratePDF from "../component/Pdfgenerator";
+import { Dropdown } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -73,7 +74,7 @@ export default function Login(props: any) {
 
   if (props.user === "patient") {
     const data = JSON.parse(props.patient);
-    const dataPrescriptions = props.arrayPrescriptions;
+    const dataPrescriptions = JSON.parse(props.arrayPrescriptions);
     return (
       <Layout>
         <div className="container">
@@ -133,7 +134,20 @@ export default function Login(props: any) {
               Modify
             </button>
           </form>
-           <GeneratePDF data={{ dataPrescriptions}}/>
+
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              My Prescription
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {dataPrescriptions.map((element:any) => {
+                return (
+                  <Dropdown.Item key={`${element._id}`}><GeneratePDF data={JSON.stringify(element)} /></Dropdown.Item>
+                )
+              })}
+
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </Layout>
     );
