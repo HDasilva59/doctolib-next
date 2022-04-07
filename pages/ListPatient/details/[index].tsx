@@ -63,7 +63,7 @@ export default function DetailsPatient(props: any) {
               </Card>
         </div>
         <button onClick={() => setAfficheForm(< PrescriptionsForm idPatient={data._id}/>)}>
-            Add a prescription
+            Add a new prescription
           </button>
         <div>{afficheForm}</div>
       </Layout>
