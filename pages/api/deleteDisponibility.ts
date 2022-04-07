@@ -65,7 +65,7 @@ export default async function handler(
         .collection("medecin")
         .updateOne(
           {
-            "disponibility._id": idDisponibility,
+            //"disponibility._id": idDisponibility,
           },
           {
             $set: {
