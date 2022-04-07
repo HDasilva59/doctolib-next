@@ -63,6 +63,32 @@ export default async function handler(
         })
         .then((result) => result?._id);
 
+      const patientExistIntoMedecinPatient = await mongodb
+        .db()
+        .collection("medecin")
+        .findOne({
+          "disponibility._id": idDisponibility,
+          "patients.patientId": new ObjectId(idUser?.toString()),
+        });
+
+      if (patientExistIntoMedecinPatient === null) {
+        await mongodb
+          .db()
+          .collection("medecin")
+          .updateOne(
+            {
+              "disponibility._id": idDisponibility,
+            },
+            {
+              $push: {
+                patients: {
+                  patientId: new ObjectId(idUser?.toString()),
+                },
+              },
+            }
+          );
+      }
+
       const addFavorite = await mongodb
         .db()
         .collection("patient")
