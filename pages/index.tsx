@@ -195,23 +195,33 @@ export default function Home(props: any) {
               <h1 className={styles.title}>
                 Book a physical consultation with a health professional
               </h1>
-              <div className="container-fluid " style={{ textAlign: "center" }}>
-                <form className="SearchBarPatient" action="/doctors">
-                  <label>
-                    <input
-                      className={styles.inputtext}
-                      type="text"
-                      name="name"
-                      placeholder="Find a doctor"
-                    />
-                  </label>
+            </div>
+            <div className="container" style={{ textAlign: "center" }}>
+              <form className="SearchBarPatient" action="/doctors">
+                <label>
                   <input
-                    className={styles.inputsubmit}
-                    type="submit"
-                    value="Submit"
+                    className={styles.inputtext}
+                    type="text"
+                    name="name"
+                    placeholder="Find a doctor"
                   />
-                </form>
-              </div>
+                  <select className={styles.inputtext} name="city" id="city">
+                    <option value="">--Please choose a city--</option>
+                    {arrayCities.map((element: any) => {
+                      return (
+                        <option value={element} key={element}>
+                          {element}{" "}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </label>
+                <input
+                  className={styles.inputsubmit}
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
             </div>
 
             <div className="container">
