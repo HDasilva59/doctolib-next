@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt_decode from "jwt-decode";
-import { ObjectId } from "mongodb";
-import { v4 as uuidv4 } from "uuid";
 import { userCategory, userId } from "../../../src/userInfos";
 
 export default async function handler(

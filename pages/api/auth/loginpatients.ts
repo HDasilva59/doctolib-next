@@ -1,6 +1,4 @@
-import app from "next/app";
 import { NextApiRequest, NextApiResponse } from "next";
-import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
 export default async function handler(
   req: NextApiRequest,
