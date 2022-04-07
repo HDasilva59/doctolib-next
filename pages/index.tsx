@@ -16,18 +16,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const mongodb = await getDatabase();
   const medecin = await mongodb
-  .db()
-  .collection("medecin")
-  .find()
-  .toArray()
-  .then((result) => result);
+    .db()
+    .collection("medecin")
+    .find()
+    .toArray()
+    .then((result) => result);
 
-const city = medecin?.map(function (ele: any, pos: any) {
-  return ele.city;
-});
+  const city = medecin?.map(function (ele: any, pos: any) {
+    return ele.city;
+  });
 
-const arrayFilter = Array.from(new Set(city));
-console.log("==========================ARRAY FILTER===================" + arrayFilter)
+  const arrayFilter = Array.from(new Set(city));
+
+  const typeArrayFilter = arrayFilter.join();
+  console.log(
+    "============================ARRAY FILTER JOIN ===============" +
+      typeArrayFilter
+  );
+
+  console.log(
+    "==========================ARRAY FILTER===================" + arrayFilter
+  );
   if (accessTokken !== undefined) {
     decoded = jwt_decode(accessTokken.toString());
     user = await userCategory(decoded.email);
@@ -40,6 +49,7 @@ console.log("==========================ARRAY FILTER===================" + arrayF
     return {
       props: {
         category: null,
+        arrayCity: typeArrayFilter
       },
     };
   } else if (user === "patient") {
@@ -48,7 +58,7 @@ console.log("==========================ARRAY FILTER===================" + arrayF
       props: {
         category: "patient",
         idPatient: idUser?.toString(),
-        arrayCity: arrayFilter.join(","),
+        arrayCity: typeArrayFilter,
       },
     };
   } else {
@@ -56,7 +66,7 @@ console.log("==========================ARRAY FILTER===================" + arrayF
       props: {
         category: user,
         userId: idUser?.toString(),
-        arrayCity: arrayFilter.join(","),
+        arrayCity: null,
       },
     };
   }
@@ -68,15 +78,9 @@ export default function Home(props: any) {
   const [arrayFavoris, setarrayFavoris] = useState([]);
   const [profile, setProfile] = useState(props.category);
 
-  const arrayCities = props.arrayCity.split(',')
-  console.log("=========================ARRAY CITY================" + arrayCities)
-  async function cityList(){
-    const citiesWithDuplicata = arrayCities.map((element:any) => element.city)
-    const cityNotDuplicated = citiesWithDuplicata.filter((v:any,i:any) => citiesWithDuplicata.indexOf(v) === i)
-    return (
-      cityNotDuplicated.map((element:any) => {<option value={element}>{element}</option>})
-    )
-  }
+  const arrayCities = props.arrayCity.split(",");
+  console.log(arrayCities)
+
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)
@@ -124,10 +128,14 @@ export default function Home(props: any) {
                   placeholder="Find a doctor"
                 />
                 <label>Choose a city:</label>
-                  <select name="city" id="city">
-                      <option value="">--Please choose an option--</option>
-                      {cityList()}
-                  </select>
+                <select name="city" id="city">
+                  <option value="">--Please choose an option--</option>
+                  {arrayCities.map((element: any) => {
+                    return(
+                      <option value={element} key={element}>{element} </option>
+                    )
+                  })}
+                </select>
               </label>
               <input
                 className={styles.inputsubmit}
@@ -148,9 +156,7 @@ export default function Home(props: any) {
               <Link href="/api/auth/login">
                 <a className={styles.card}>
                   <h2>Are you a professional &rarr;</h2>
-                  <p>
-                    Get connected and gain comfort and working time
-                  </p>
+                  <p>Get connected and gain comfort and working time</p>
                 </a>
               </Link>
             </div>
@@ -172,19 +178,7 @@ export default function Home(props: any) {
               <Link href={`/Calendar/${props.userId}`}>
                 <a className={styles.card}>
                   <h2>My Calendar</h2>
-                  <p>
-                    Go to my calendar
-                  </p>
-                </a>
-              </Link>
-            </div>
-          <div className={styles.gridleftDoctorPatient}>
-              <Link href={`/ListPatient/${props.userId}`}>
-                <a className={styles.card}>
-                  <h2>My Patients</h2>
-                  <p>
-                    Go to my list of patients
-                  </p>
+                  <p>Go to my calendar</p>
                 </a>
               </Link>
             </div>
@@ -232,15 +226,7 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                            <Link
-                            href={`/api/deleteDisponibility?data=${JSON.stringify(
-                              [element.id]
-                            )}`}
-                          >
-                            <a><span className="material-icons">
-                            delete
-                            </span></a></Link>
-
+                            <> X </>
                           </li>
                         );
                       })}
@@ -272,12 +258,16 @@ export default function Home(props: any) {
                     <ul className="list-group">
                       {arrayFavoris.map((element: any) => {
                         return (
-                          <Link key={element.id} href={`/doctors/details?id=${element._id}`}>
+                          <Link
+                            key={element.id}
+                            href={`/doctors/details?id=${element._id}`}
+                          >
                             <a>
-                          <li className="list-group-item" >
-                            {element.lastName} {element.firstName}
+                              <li className="list-group-item">
+                                {element.lastName} {element.firstName}
+                                <> X </>
                               </li>
-                          </a>
+                            </a>
                           </Link>
                         );
                       })}
