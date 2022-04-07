@@ -236,7 +236,15 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                            <> X </>
+                            <span className="material-icons iconeDelete">
+                              <Link
+                                href={`/api/deleteDisponibility?data=${JSON.stringify(
+                                  [element.id]
+                                )}`}
+                              >
+                                <a>delete </a>
+                              </Link>
+                            </span>
                           </li>
                         );
                       })}
@@ -275,7 +283,7 @@ export default function Home(props: any) {
                           >
                             <a>
                               <li className="list-group-item">
-                                {element.lastName} {element.firstName}
+                                {element.lastName} {element.firstName} ---- ({element.speciality}) ---- ({element.city})
                               </li>
                             </a>
                           </Link>
