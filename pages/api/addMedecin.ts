@@ -20,6 +20,7 @@ export default async function handler(
         tarif: parseInt(req.body.tarif),
         speciality: req.body.spe,
         disponibility: [],
+        patients: [],
       });
 
     res.redirect("/");

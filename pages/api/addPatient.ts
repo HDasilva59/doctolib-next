@@ -16,6 +16,7 @@ export default async function handler(
       phone: req.body.phone,
       reservation: [],
       favoris: [],
+      prescriptions: [],
     });
 
     res.redirect("/");
