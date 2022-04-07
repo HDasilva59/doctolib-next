@@ -276,7 +276,6 @@ export default function Home(props: any) {
                             <a>
                               <li className="list-group-item">
                                 {element.lastName} {element.firstName}
-                                <> X </>
                               </li>
                             </a>
                           </Link>

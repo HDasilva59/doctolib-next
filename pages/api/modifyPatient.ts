@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log(req.body.id);
     const mongodb = await getDatabase();
     const medecin = await mongodb
       .db()

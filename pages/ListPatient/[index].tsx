@@ -6,7 +6,7 @@ import { userCategory } from "../../src/userInfos";
 import { StopPage } from "../../component/404";
 import { Layout } from "../../component/layout";
 import jwt_decode from "jwt-decode";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -63,7 +63,7 @@ export default function Login(props: any) {
   if (props.patient !== null) {
     if (props.patient !== "aucun") {
       const data = JSON.parse(props.patient);
-      console.log(data)
+
       return (
         <Layout>
           <Link href="/">
@@ -71,21 +71,26 @@ export default function Login(props: any) {
               <Button variant="dark">Back</Button>
             </a>
           </Link>
-          <div className="container divcontainer">
+          <div className="container">
             <ul className="list-group">
               {data.map((element: any) => {
                 return (
-                  <Link
-                    key={element._id}
-                    href={`/ListPatient/details/${element._id}`}
-                  >
-                    <a>
-                      <li className="list-group-item">
-                        Last Name: {element.lastName}, First Name:{" "}
-                        {element.firstName}
-                      </li>
-                    </a>
-                  </Link>
+                  <Card key={element._id}>
+                  <Card.Header as="h5">
+                    Dr {element.lastName} {element.firstName}
+                  </Card.Header>
+                  <Card.Body>
+                    <Card.Title>{element.email}</Card.Title>
+                    <Card.Text>
+                      {element.city} , {element.phone}
+                    </Card.Text>
+                    <Button variant="primary">
+                      <Link href={`/ListPatient/details/${element._id}`}>
+                        <a>More Infos</a>
+                      </Link>
+                    </Button>
+                  </Card.Body>
+                </Card>
                 );
               })}
             </ul>

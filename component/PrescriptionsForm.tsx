@@ -5,7 +5,13 @@ export const PrescriptionsForm = (props:any) => {
         <div className="row mb-3">
           <label className="col-sm-2 col-form-label">Date Of Prescription </label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="date" name="date" />
+            <input type="text" className="form-control" value={props.date} id="date" name="date" />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <label className="col-sm-2 col-form-label">N° Reservation</label>
+          <div className="col-sm-10">
+            <input type="text" className="form-control" value={props.resa} id="resa" name="resa" />
           </div>
         </div>
         <div className="row mb-3">
