@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   } else if (user === "patient") {
     idUser = await userIdPatient(decoded.email);
-    console.log("----------------------------------",decoded.email)
+
     return {
       props: {
         category: "patient",
@@ -171,6 +171,14 @@ export default function Home(props: any) {
                 <a className={styles.card}>
                   <h2>My Calendar</h2>
                   <p>Go to my calendar</p>
+                </a>
+              </Link>
+            </div>
+            <div className={styles.gridleftDoctorPatient}>
+              <Link href={`/ListPatient/${props.userId}`}>
+                <a className={styles.card}>
+                  <h2>My Patients</h2>
+                  <p>Go to my patients</p>
                 </a>
               </Link>
             </div>
