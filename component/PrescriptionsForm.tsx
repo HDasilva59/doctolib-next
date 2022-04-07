@@ -1,5 +1,4 @@
 export const PrescriptionsForm = (props:any) => {
-  console.log(props.idPatient)
   return (
     <div className="container">
       <form action={`/api/addPrescription?id=${props.idPatient}`} method="POST">

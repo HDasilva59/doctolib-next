@@ -6,6 +6,7 @@ import { getDatabase } from "../src/database";
 import { userCategory } from "../src/userInfos";
 import styles from "../styles/Home.module.css";
 import jwt_decode from "jwt-decode";
+import GeneratePDF from "../component/Pdfgenerator";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const accessTokken = context.req.cookies.idTokken;
@@ -16,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const decoded: any = jwt_decode(accessTokken);
     user = await userCategory(decoded.email);
   }
-  console.log(user);
+
   if (user === "patient") {
     const decoded: any = jwt_decode(accessTokken);
     user = await userCategory(decoded.email);
@@ -27,9 +28,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .findOne({ email: decoded.email })
       .then((result) => result);
 
+    const patientPrescriptions = await mongodb
+      .db()
+      .collection("patient")
+      .findOne({ email: decoded.email })
+      .then((result) => result?.prescriptions);
+
+
     return {
       props: {
         patient: JSON.stringify(patientInfo),
+        arrayPrescriptions: JSON.stringify(patientPrescriptions)
       },
     };
   } else {
@@ -43,9 +52,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function Login(props: any) {
-  console.log(typeof props.patient);
+
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
+    const dataPrescriptions = props.arrayPrescriptions;
     return (
       <Layout>
         <div className="container">
@@ -105,6 +115,7 @@ export default function Login(props: any) {
               Modify
             </button>
           </form>
+           <GeneratePDF data={{ dataPrescriptions}}/>
         </div>
       </Layout>
     );
