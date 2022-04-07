@@ -195,7 +195,14 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                            <> X </>
+                            <Link
+                            href={`/api/deleteDisponibility?data=${JSON.stringify(
+                              [element.id]
+                            )}`}
+                          >
+                            <a><span className="material-icons">
+                            delete
+                            </span></a></Link>
 
                           </li>
                         );
@@ -210,7 +217,14 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-                            <> X </>
+                           <span className="material-icons iconeDelete">
+                          <Link
+                            href={`/api/deleteDisponibility?data=${JSON.stringify(
+                              [element.id]
+                            )}`}
+                          >
+                            <a>delete </a></Link>
+                          </span>
                           </li>
                         );
                       })}
@@ -225,7 +239,6 @@ export default function Home(props: any) {
                             <a>
                           <li className="list-group-item" >
                             {element.lastName} {element.firstName}
-                            <> X </>
                               </li>
                           </a>
                           </Link>

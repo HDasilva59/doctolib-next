@@ -54,42 +54,40 @@ export default async function handler(
             }
           );
       }
-    }else if (user === "patient") {
+    } else if (user === "patient") {
       const data = req.query.data.toString();
       const dataArray = JSON.parse(data);
       const mongodb = await getDatabase();
 
-      for (let index = 0; index < dataArray.length; index++) {
-        const modifReservationStatu = await mongodb
+      const modifReservationStatu = await mongodb
         .db()
         .collection("medecin")
         .updateOne(
           {
-            //"disponibility._id": idDisponibility,
+            "disponibility._id": dataArray[0],
           },
           {
             $set: {
-              "disponibility.$.reserved": true,
+              "disponibility.$.reserved": false,
             },
           }
         );
 
-        await mongodb
-          .db()
-          .collection("patient")
-          .updateOne(
-            {
-              "reservation.resa": dataArray[index],
-            },
-            {
-              $pull: {
-                reservation: {
-                  resa: dataArray[index],
-                },
+      await mongodb
+        .db()
+        .collection("patient")
+        .updateOne(
+          {
+            "reservation.resa": dataArray[0],
+          },
+          {
+            $pull: {
+              reservation: {
+                resa: dataArray[0],
               },
-            }
-          );
-      }
+            },
+          }
+        );
     }
     res.redirect(`${req.headers.referer}`);
   } else {
