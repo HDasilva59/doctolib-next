@@ -25,7 +25,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const city = medecin?.map(function (ele: any, pos: any) {
     return ele.city;
   });
-
   const arrayFilter = Array.from(new Set(city));
 
   const typeArrayFilter = arrayFilter.join();
@@ -66,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         category: user,
         userId: idUser?.toString(),
-        arrayCity: null,
+        arrayCity: typeArrayFilter,
       },
     };
   }
