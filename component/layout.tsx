@@ -7,13 +7,18 @@ import { Height } from "@mui/icons-material";
 export const Layout: React.FC = ({ children }) => {
   const [connexion, setConnexion] = useState("false");
   const [infoUser, setInfoUser] = useState("");
+  const [infoUndefined, setinfoUndefined] = useState('false');
 
    async function getConnexion() {
      const connnectedResponse = await fetch("/api/isConnected").then((response) => response.json());
      const response = await fetch("/api/getInfoUser").then((response) => response.json());
      setConnexion(connnectedResponse.toString());
      if (connnectedResponse.toString() === "true") {
-        setInfoUser(`${response?.lastName} ${response?.firstName}`);
+       if (response?.lastName !== undefined) {
+         setInfoUser(`${response?.lastName} ${response?.firstName}`);
+       } else {
+         setinfoUndefined("true");
+       }
      }
 
     }
@@ -30,7 +35,7 @@ export const Layout: React.FC = ({ children }) => {
  </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
-            <Navbar.Text>
+           {infoUndefined === "true" ? <></> :  <Navbar.Text>
         {connexion === "false" ?  <Nav.Link href="/login" style={{ color: "white", fontSize:25}}>Login</Nav.Link>: <NavDropdown style={{ color: "white", fontSize:25}}   title={`${infoUser}`} id="basic-nav-dropdown" >
                <NavDropdown.Item href="/myProfile" ><span className="material-icons">
 account_circle
@@ -39,7 +44,7 @@ account_circle
 logout
 </span>Logout</NavDropdown.Item>
               </NavDropdown>}
-      </Navbar.Text>
+      </Navbar.Text>}
           </Navbar.Collapse>
         </Container>
     </Navbar>
