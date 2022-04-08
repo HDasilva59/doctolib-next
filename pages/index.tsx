@@ -28,14 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const arrayFilter = Array.from(new Set(city));
 
   const typeArrayFilter = arrayFilter.join();
-  console.log(
-    "============================ARRAY FILTER JOIN ===============" +
-      typeArrayFilter
-  );
 
-  console.log(
-    "==========================ARRAY FILTER===================" + arrayFilter
-  );
   if (accessTokken !== undefined) {
     decoded = jwt_decode(accessTokken.toString());
     user = await userCategory(decoded.email);
@@ -53,6 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   } else if (user === "patient") {
     idUser = await userIdPatient(decoded.email);
+
     return {
       props: {
         category: "patient",
@@ -78,7 +72,6 @@ export default function Home(props: any) {
   const [profile, setProfile] = useState(props.category);
 
   const arrayCities = props.arrayCity.split(",");
-  console.log(arrayCities);
 
   async function GetRDVPatient() {
     const dataFuture = await fetch(`/api/getFutureRDV?data=${props.idPatient}`)
@@ -181,6 +174,14 @@ export default function Home(props: any) {
                 </a>
               </Link>
             </div>
+            <div className={styles.gridleftDoctorPatient}>
+              <Link href={`/ListPatient/${props.userId}`}>
+                <a className={styles.card}>
+                  <h2>My Patients</h2>
+                  <p>Go to my patients</p>
+                </a>
+              </Link>
+            </div>
           </div>
         </main>
       </Layout>
@@ -194,23 +195,33 @@ export default function Home(props: any) {
               <h1 className={styles.title}>
                 Book a physical consultation with a health professional
               </h1>
-              <div className="container-fluid " style={{ textAlign: "center" }}>
-                <form className="SearchBarPatient" action="/doctors">
-                  <label>
-                    <input
-                      className={styles.inputtext}
-                      type="text"
-                      name="name"
-                      placeholder="Find a doctor"
-                    />
-                  </label>
+            </div>
+            <div className="container" style={{ textAlign: "center" }}>
+              <form className="SearchBarPatient" action="/doctors">
+                <label>
                   <input
-                    className={styles.inputsubmit}
-                    type="submit"
-                    value="Submit"
+                    className={styles.inputtext}
+                    type="text"
+                    name="name"
+                    placeholder="Find a doctor"
                   />
-                </form>
-              </div>
+                  <select className={styles.inputtext} name="city" id="city">
+                    <option value="">--Please choose a city--</option>
+                    {arrayCities.map((element: any) => {
+                      return (
+                        <option value={element} key={element}>
+                          {element}{" "}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </label>
+                <input
+                  className={styles.inputsubmit}
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
             </div>
 
             <div className="container">
@@ -225,6 +236,18 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
+<<<<<<< HEAD
+=======
+                            <span className="material-icons iconeDelete">
+                              <Link
+                                href={`/api/deleteDisponibility?data=${JSON.stringify(
+                                  [element.id]
+                                )}`}
+                              >
+                                <a>delete </a>
+                              </Link>
+                            </span>
+>>>>>>> 42d90389d314b7943942d7bbe672995890dc4e73
                           </li>
                         );
                       })}
@@ -264,8 +287,12 @@ export default function Home(props: any) {
                           >
                             <a>
                               <li className="list-group-item">
+<<<<<<< HEAD
                                 {element.lastName} {element.firstName}
 
+=======
+                                {element.lastName} {element.firstName} ---- ({element.speciality}) ---- ({element.city})
+>>>>>>> 42d90389d314b7943942d7bbe672995890dc4e73
                               </li>
                             </a>
                           </Link>

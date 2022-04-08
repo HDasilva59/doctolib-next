@@ -24,6 +24,11 @@ export default async function handler(
       const mongodb = await getDatabase();
       const patient = req.query.id;
 
+      const medecin = await mongodb
+        .db()
+        .collection("medecin")
+        .findOne({ "disponibility._id": req.body.resa });
+
       const addPrescription = await mongodb
         .db()
         .collection("patient")
@@ -36,7 +41,13 @@ export default async function handler(
               prescriptions: {
                 _id: uuidv4(),
                 date: req.body.date,
+                resaId: req.body.resa,
                 contenu: req.body.formArea,
+                firstNameDoctor: medecin?.firstName,
+                lastNameDoctor: medecin?.lastName,
+                emailDoctor: medecin?.email,
+                specialityDoctor: medecin?.speciality,
+                cityDoctor: medecin?.city,
               },
             },
           }

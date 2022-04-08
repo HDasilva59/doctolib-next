@@ -24,6 +24,15 @@ export default async function handler(
     if (user === "patient") {
       const idDisponibility = req.query.idDispo;
       const mongodb = await getDatabase();
+
+      const idMedecin = await mongodb
+        .db()
+        .collection("medecin")
+        .findOne({
+          "disponibility._id": idDisponibility,
+        })
+        .then((result) => result?._id);
+
       const reservation = await mongodb
         .db()
         .collection("patient")
@@ -36,6 +45,7 @@ export default async function handler(
               reservation: {
                 _id: uuidv4(),
                 resa: idDisponibility,
+                iddoctor: idMedecin?.toString(),
               },
             },
           }
@@ -54,14 +64,6 @@ export default async function handler(
             },
           }
         );
-
-      const idMedecin = await mongodb
-        .db()
-        .collection("medecin")
-        .findOne({
-          "disponibility._id": idDisponibility,
-        })
-        .then((result) => result?._id);
 
       const patientExistIntoMedecinPatient = await mongodb
         .db()
@@ -89,23 +91,33 @@ export default async function handler(
           );
       }
 
-      const addFavorite = await mongodb
+      //find if medecin present into data of patient
+      const findMedecinIntoPatient = await mongodb
         .db()
         .collection("patient")
-        .updateOne(
-          {
-            _id: new ObjectId(idUser?.toString()),
-          },
-          {
-            $push: {
-              favoris: {
-                _id: uuidv4(),
-                favoritedoc: idMedecin,
-              },
-            },
-          }
-        );
+        .findOne({
+          _id: new ObjectId(idUser?.toString()),
+          "favoris.favoritedoc": idMedecin,
+        });
 
+      if (findMedecinIntoPatient === null) {
+        const addFavorite = await mongodb
+          .db()
+          .collection("patient")
+          .updateOne(
+            {
+              _id: new ObjectId(idUser?.toString()),
+            },
+            {
+              $push: {
+                favoris: {
+                  _id: uuidv4(),
+                  favoritedoc: idMedecin,
+                },
+              },
+            }
+          );
+      }
       const medecin = await mongodb
         .db()
         .collection("medecin")
