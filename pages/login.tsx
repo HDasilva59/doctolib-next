@@ -8,7 +8,7 @@ export default function Login(props: { props: any }) {
       <div className={styles.pagecontainerwelcome}>
         <div className={styles.itemcenter}>
           <main className="m-auto">
-            <h1>Login</h1>
+            <h1 className={styles.title}  >Login</h1>
             <div className="btn-group" role="group" aria-label="Basic example">
               <Link href="/api/auth/login">
                 <a>

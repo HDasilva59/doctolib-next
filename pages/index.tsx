@@ -192,11 +192,11 @@ export default function Home(props: any) {
         <main>
           <div>
             <div className="container-fluid Head">
-              <h1 className={styles.title}>
+              <h1 className={styles.title} style={{ textAlign: "right",marginRight: 40, fontFamily: "cursive"}}>
                 Book a physical consultation with a health professional
               </h1>
-            </div>
-            <div className="container" style={{ textAlign: "center" }}>
+
+            <div className="container" style={{ textAlign: "right" }}>
               <form className="SearchBarPatient" action="/doctors">
                 <label>
                   <input
@@ -217,11 +217,13 @@ export default function Home(props: any) {
                   </select>
                 </label>
                 <input
-                  className={styles.inputsubmit}
+                  className={styles.inputsubmit }
                   type="submit"
                   value="Submit"
+                  style={{ marginRight: 310 }}
                 />
               </form>
+            </div>
             </div>
 
             <div className="container">
@@ -234,7 +236,7 @@ export default function Home(props: any) {
                     <ul className="list-group">
                       {arrayPreviousRDV.map((element: any) => {
                         return (
-                          <li className="list-group-item" key={element.id}>
+                          <li className="list-group-item" key={element.id} style={{ }}>
                             Date : {element.date} , Heure : {element.heure}
                             <span className="material-icons iconeDelete">
                               <Link
@@ -268,6 +270,7 @@ export default function Home(props: any) {
                               </Link>
                             </span>
                           </li>
+
                         );
                       })}
                     </ul>
@@ -282,7 +285,7 @@ export default function Home(props: any) {
                             href={`/doctors/details?id=${element._id}`}
                           >
                             <a>
-                              <li className="list-group-item">
+                              <li className="list-group-item" >
                                 {element.lastName} {element.firstName} ---- ({element.speciality}) ---- ({element.city})
                               </li>
                             </a>
