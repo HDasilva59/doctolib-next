@@ -192,11 +192,11 @@ export default function Home(props: any) {
         <main>
           <div>
             <div className="container-fluid Head">
-              <h1 className={styles.title}>
+              <h1 className={styles.title} style={{ textAlign: "right",marginRight: 40 }}>
                 Book a physical consultation with a health professional
               </h1>
-            </div>
-            <div className="container" style={{ textAlign: "center" }}>
+
+            <div className="container" style={{ textAlign: "right" }}>
               <form className="SearchBarPatient" action="/doctors">
                 <label>
                   <input
@@ -217,11 +217,13 @@ export default function Home(props: any) {
                   </select>
                 </label>
                 <input
-                  className={styles.inputsubmit}
+                  className={styles.inputsubmit }
                   type="submit"
                   value="Submit"
+                  style={{ marginRight: 310 }}
                 />
               </form>
+            </div>
             </div>
 
             <div className="container">
@@ -236,8 +238,6 @@ export default function Home(props: any) {
                         return (
                           <li className="list-group-item" key={element.id}>
                             Date : {element.date} , Heure : {element.heure}
-<<<<<<< HEAD
-=======
                             <span className="material-icons iconeDelete">
                               <Link
                                 href={`/api/deleteDisponibility?data=${JSON.stringify(
@@ -247,7 +247,6 @@ export default function Home(props: any) {
                                 <a>delete </a>
                               </Link>
                             </span>
->>>>>>> 42d90389d314b7943942d7bbe672995890dc4e73
                           </li>
                         );
                       })}
@@ -287,12 +286,7 @@ export default function Home(props: any) {
                           >
                             <a>
                               <li className="list-group-item">
-<<<<<<< HEAD
-                                {element.lastName} {element.firstName}
-
-=======
                                 {element.lastName} {element.firstName} ---- ({element.speciality}) ---- ({element.city})
->>>>>>> 42d90389d314b7943942d7bbe672995890dc4e73
                               </li>
                             </a>
                           </Link>

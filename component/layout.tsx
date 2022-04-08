@@ -25,7 +25,7 @@ export const Layout: React.FC = ({ children }) => {
     <>
       <Navbar bg="primary" expand="lg">
         <Container>
-          <Navbar.Brand href="/" ><Image src="/images/DocoLogo.webp" alt="" width= "50" height="50"  ></Image>
+          <Navbar.Brand href="/" ><Image src="/images/DocLogoBlanc.png" alt="" width= "150" height="40"  ></Image>
  </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
