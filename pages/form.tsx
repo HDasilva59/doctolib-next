@@ -87,6 +87,17 @@ export default function FormMedecin(props: any) {
             name="spe"
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+             <Form.Group as={Col} md="4" controlId="validationCustom01">
+          <Form.Label>Price /Hour</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter your tarif"
+            id="tarif"
+            name="tarif"
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
         </Form.Group>
 <Form.Group as={Col} md="4" controlId="validationCustom01">
           <Form.Label>City</Form.Label>
