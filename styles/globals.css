@@ -122,13 +122,16 @@ width: 400px;
   margin-left: 20px;
 }
 
-.list-group-item{
+.list-group-item,
+.list-group-item a
+{
   transition: box-shadow .3s;
   border-radius: 20px;
   margin-bottom: 10px;
 }
 
-.list-group{
+.list-group ,
+.list-group a{
   border-radius: 20px;
 
 }
