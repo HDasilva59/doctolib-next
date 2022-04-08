@@ -236,7 +236,7 @@ export default function Home(props: any) {
                     <ul className="list-group">
                       {arrayPreviousRDV.map((element: any) => {
                         return (
-                          <li className="list-group-item" key={element.id}>
+                          <li className="list-group-item" key={element.id} style={{ }}>
                             Date : {element.date} , Heure : {element.heure}
                             <span className="material-icons iconeDelete">
                               <Link
