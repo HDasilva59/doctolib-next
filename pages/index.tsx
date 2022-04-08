@@ -106,7 +106,7 @@ export default function Home(props: any) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className="page-container-welcome">
-          <h1 className={styles.title}>
+          <h1 className={styles.title} style={{fontFamily: "cursive"}}>
             Book a physical consultation with a health professional
           </h1>
           <div className="container" style={{ textAlign: "center" }}>
@@ -147,8 +147,8 @@ export default function Home(props: any) {
             <div className={styles.gridright}>
               <Link href="/api/auth/login">
                 <a className={styles.card}>
-                  <h2>Are you a professional &rarr;</h2>
-                  <p>Get connected and gain comfort and working time</p>
+                  <h2>Are you a professional ? &rarr;</h2>
+                  <p>Get connected, gain comfort and working time</p>
                 </a>
               </Link>
             </div>
@@ -237,7 +237,7 @@ export default function Home(props: any) {
                       {arrayPreviousRDV.map((element: any) => {
                         return (
                           <li className="list-group-item" key={element.id} style={{ }}>
-                            Date : {element.date} , Heure : {element.heure}
+                            Date : {element.date} , Time : {element.heure}
                             <span className="material-icons iconeDelete">
                               <Link
                                 href={`/api/deleteDisponibility?data=${JSON.stringify(
@@ -259,7 +259,7 @@ export default function Home(props: any) {
                       {arrayFutureRDV.map((element: any) => {
                         return (
                           <li className="list-group-item" key={element.id}>
-                            Date : {element.date} , Heure : {element.heure}
+                            Date : {element.date} , Time : {element.heure}
                             <span className="material-icons iconeDelete">
                               <Link
                                 href={`/api/deleteDisponibility?data=${JSON.stringify(
@@ -276,7 +276,7 @@ export default function Home(props: any) {
                     </ul>
                   </div>
                   <div className="col-4 colRDV">
-                    My Favorites Doctors
+                    My Favorite Doctors
                     <ul className="list-group">
                       {arrayFavoris.map((element: any) => {
                         return (
