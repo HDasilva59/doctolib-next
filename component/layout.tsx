@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Container, Dropdown, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import Image from "next/image";
+import { Height } from "@mui/icons-material";
 
 export const Layout: React.FC = ({ children }) => {
   const [connexion, setConnexion] = useState("false");
@@ -30,8 +31,8 @@ export const Layout: React.FC = ({ children }) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
             <Navbar.Text>
-        {connexion === "false" ?  <Nav.Link href="/login">Login</Nav.Link>: <NavDropdown  title={`${infoUser}`} id="basic-nav-dropdown">
-                <NavDropdown.Item href="/myProfile">My Profile</NavDropdown.Item>
+        {connexion === "false" ?  <Nav.Link href="/login" style={{ color: "white", fontSize:25}}>Login</Nav.Link>: <NavDropdown style={{ color: "white", fontSize:25}}   title={`${infoUser}`} id="basic-nav-dropdown" >
+                <NavDropdown.Item href="/myProfile" >My Profile</NavDropdown.Item>
                 <NavDropdown.Item href="/api/auth/logout">Logout</NavDropdown.Item>
               </NavDropdown>}
       </Navbar.Text>

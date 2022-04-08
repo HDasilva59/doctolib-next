@@ -192,7 +192,7 @@ export default function Home(props: any) {
         <main>
           <div>
             <div className="container-fluid Head">
-              <h1 className={styles.title} style={{ textAlign: "right",marginRight: 40 }}>
+              <h1 className={styles.title} style={{ textAlign: "right",marginRight: 40, fontFamily: "cursive"}}>
                 Book a physical consultation with a health professional
               </h1>
 
@@ -285,7 +285,7 @@ export default function Home(props: any) {
                             href={`/doctors/details?id=${element._id}`}
                           >
                             <a>
-                              <li className="list-group-item">
+                              <li className="list-group-item" >
                                 {element.lastName} {element.firstName} ---- ({element.speciality}) ---- ({element.city})
                               </li>
                             </a>

@@ -132,4 +132,7 @@ width: 400px;
   border-radius: 20px;
 
 }
+.list-group-item :hover{
+  box-shadow: 5px 5px 5px 1px rgba(0, 0, 255, .2);
 
+}
