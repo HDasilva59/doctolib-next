@@ -11,6 +11,11 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const accessTokken = req.cookies.idTokken;
+
+    const hours = req.body.data.split("T")[1];
+    const day = req.body.data.split("T")[0].split("-");
+    const dayFormat = day[2] + "/" + day[1] + "/" + day[0];
+
     let user;
     let idUser;
     if (req.cookies.idTokken === undefined) {
@@ -34,8 +39,8 @@ export default async function handler(
             $push: {
               disponibility: {
                 _id: uuidv4(),
-                date: req.body.date,
-                heure: req.body.heure,
+                date: dayFormat,
+                heure: hours,
                 reserved: false,
               },
             },

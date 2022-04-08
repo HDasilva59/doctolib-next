@@ -1,24 +1,12 @@
+import GfgDatePicker from "./DataPicker";
+
 export const DisponibilityForm: React.FC = () => {
   return (
     <div className="container">
       <form action="/api/addDisponibility" method="POST">
-        <div className="row mb-3">
-          <label className="col-sm-2 col-form-label">Date</label>
-          <div className="col-sm-10">
-            <input type="text" className="form-control" id="date" name="date" />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <label className="col-sm-2 col-form-label">Heure</label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="heure"
-              name="heure"
-            />
-          </div>
-        </div>
+
+          <input type="datetime-local" name="data" id="data"/>
+
         <button
           type="submit"
           className="btn btn-md btn-primary"
@@ -28,6 +16,7 @@ export const DisponibilityForm: React.FC = () => {
         >
           Sign it
         </button>
+
       </form>
     </div>
   );
