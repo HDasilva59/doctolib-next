@@ -32,8 +32,12 @@ export const Layout: React.FC = ({ children }) => {
           <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
             <Navbar.Text>
         {connexion === "false" ?  <Nav.Link href="/login" style={{ color: "white", fontSize:25}}>Login</Nav.Link>: <NavDropdown style={{ color: "white", fontSize:25}}   title={`${infoUser}`} id="basic-nav-dropdown" >
-                <NavDropdown.Item href="/myProfile" >My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="/api/auth/logout">Logout</NavDropdown.Item>
+               <NavDropdown.Item href="/myProfile" ><span className="material-icons">
+account_circle
+</span>My Profile </NavDropdown.Item>
+                <NavDropdown.Item href="/api/auth/logout"><span className="material-icons">
+logout
+</span>Logout</NavDropdown.Item>
               </NavDropdown>}
       </Navbar.Text>
           </Navbar.Collapse>
