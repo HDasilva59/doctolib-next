@@ -24,7 +24,7 @@ export default async function handler(
     if (user === "patient") {
       const idDisponibility = req.query.idDispo;
       const mongodb = await getDatabase();
-
+      console.log("------------------------------", idDisponibility);
       const idMedecin = await mongodb
         .db()
         .collection("medecin")

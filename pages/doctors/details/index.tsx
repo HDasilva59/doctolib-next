@@ -46,9 +46,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function DetailsPatient(props: any) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [valueSelected, setvalueSelected] = useState("");
 
   if (props.patient !== null) {
     const data = JSON.parse(props.patient);
+    console.log(data.disponibility)
     return (
       <Layout>
         <Link href={`${props.speciality}`}>
@@ -91,7 +93,7 @@ export default function DetailsPatient(props: any) {
                           {props.category === "patient" ? <Button
                             color="primary"
                             type="button"
-                            onClick={() => setModalOpen(!modalOpen)}
+                            onClick={() => { setModalOpen(!modalOpen), setvalueSelected(element._id) }}
                           >
                             Reserve
                           </Button> : <Link href="/api/auth/loginpatients"><a><Button
@@ -101,8 +103,9 @@ export default function DetailsPatient(props: any) {
                             Reserve
                           </Button></a></Link>}
                           <Modal
-                            toggle={() => setModalOpen(!modalOpen)}
+                            toggle={() =>setModalOpen(!modalOpen)}
                             isOpen={modalOpen}
+                            value={index}
                           >
                             <div className=" modal-header">
                               <h5
@@ -130,7 +133,7 @@ export default function DetailsPatient(props: any) {
                                 No
                               </Button>
                               <Link
-                                href={`/api/reservation?idDispo=${element._id}`}
+                                href={`/api/reservation?idDispo=${valueSelected}`}
                               >
                                 <a>
                                   <Button color="primary" type="button">
