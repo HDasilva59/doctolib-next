@@ -169,8 +169,8 @@ export default function Home(props: any) {
             <div className={styles.gridrightDoctor}>
               <Link href={`/Calendar/${props.userId}`}>
                 <a className={styles.card}>
-                  <h2>My Calendar</h2>
-                  <p>Go to my calendar</p>
+                  <h2>My Disponibility</h2>
+                  <p>Add many disponibility</p>
                 </a>
               </Link>
             </div>
@@ -179,6 +179,14 @@ export default function Home(props: any) {
                 <a className={styles.card}>
                   <h2>My Patients</h2>
                   <p>Go to my patients</p>
+                </a>
+              </Link>
+            </div>
+            <div className={styles.gridrightDoctor}>
+              <Link href={`/vuecalendar`}>
+                <a className={styles.card}>
+                  <h2>My Calendar</h2>
+                  <p>Go to my calendar</p>
                 </a>
               </Link>
             </div>

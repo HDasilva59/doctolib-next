@@ -34,10 +34,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       .findOne({ email: decoded.email })
       .then((result) => result?.disponibility);
 
+  const dispoListWithPatientInfo = await Promise.all(
+    dispoList.map((element: any) => {
+       return mongodb
+         .db()
+         .collection("patient")
+         .findOne({ "reservation.resa": element._id })
+         .then((result) => {
+           return {
+             _id: element._id,
+             date: element.date,
+             heure: element.heure,
+             reserved: element.reserved,
+             patientLastName: result?.lastName,
+            patientFirstName: result?.firstName
+         }
+       })
+     })
+  )
+
     return {
       props: {
         user:"medecin",
-        data: JSON.stringify(dispoList),
+        data: JSON.stringify(dispoListWithPatientInfo),
       },
     };
   } else {
@@ -58,14 +77,14 @@ export default function CalendarDetails(props: any) {
 
       if (element.reserved === true) {
         return {
-          label: element._id,
+          label: `${element.patientLastName} ${element.patientFirstName}`,
           dateStart: new Date(element.date.split("/")[2], parseInt(element.date.split("/")[1]) - 1, element.date.split("/")[0], element.heure.split(":")[0], element.heure.split(":")[1]),
           dateEnd: new Date(element.date.split("/")[2], parseInt(element.date.split("/")[1]) - 1, element.date.split("/")[0], parseInt(element.heure.split(":")[0]) + 1, element.heure.split(":")[1]),
           backgroundColor: "#2ecc71",
         }
       } else {
         return {
-          label: element._id,
+          label: `${element._id} Not reserved`,
           dateStart: new Date(element.date.split("/")[2], parseInt(element.date.split("/")[1]) - 1, element.date.split("/")[0], element.heure.split(":")[0], element.heure.split(":")[1]),
           dateEnd: new Date(element.date.split("/")[2], parseInt(element.date.split("/")[1]) - 1, element.date.split("/")[0], parseInt(element.heure.split(":")[0]) + 1, element.heure.split(":")[1]),
           backgroundColor: "#e67e22",
