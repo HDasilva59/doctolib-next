@@ -2108,6 +2108,11 @@ smart-buffer@^4.2.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.2.0.tgz#6e1d71fa4f18c05f7d0ff216dd16a481d0e8d9ae"
   integrity sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==
 
+smart-webcomponents-react@^13.1.26:
+  version "13.1.26"
+  resolved "https://registry.yarnpkg.com/smart-webcomponents-react/-/smart-webcomponents-react-13.1.26.tgz#2786c661a72c0e48ff3164b262327bd97d4d9050"
+  integrity sha512-NE2A9k9PjfOIUZJk/T2boJ4X/AmX/z1r24dABnGxA5xog58vtYW5RRk2B6AwaNYQJgy6e9BlAEUpSIcZyeGyDQ==
+
 socks@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/socks/-/socks-2.6.2.tgz#ec042d7960073d40d94268ff3bb727dc685f111a"
