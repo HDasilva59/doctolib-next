@@ -140,4 +140,19 @@ width: 400px;
 
 }
 
+.col{
+
+background-size:cover;
+background-repeat: no-repeat;
+
+}
+
+.Uno{
+  background-image: url("/images/cutedoctorcartoon.jpeg");
+}
+
+.Dos{
+  background-image:url("/images/doctorvisitsenior.jpeg") ;
+}
+
 

@@ -83,6 +83,18 @@
   border-radius: 20px;
 }
 
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-wrap: wrap;
+  max-width: viewport-length;
+  background-image: url("/images/backgrounddoctor3.png");
+  margin-bottom: 20px;
+  margin-top: 50px ;
+  border-radius: 20px;
+}
+
 .inputtext {
   width: 700px;
   padding: 12px 20px;
@@ -132,7 +144,8 @@ border-radius: 20px;
   border-radius: 20px;
 }
 
-.card {
+.card,
+.cardlogin {
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
@@ -146,7 +159,10 @@ border-radius: 20px;
 
 .card:hover,
 .card:focus,
-.card:active {
+.card:active,
+.cardlogin:hover,
+.cardlogin:focus,
+.cardlogin:active {
   color: #0070f3;
   border-color: #0070f3;
 }
