@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context.req.headers.referer === `${process.env.AUTH0_BASE_URL}/`) {
     backUrl = `${process.env.AUTH0_BASE_URL}/`;
   } else {
-    backUrl = `${process.env.AUTH0_BASE_URL}/doctors?name=${medecinDetails?.speciality}&city=${medecinDetails?.city}`;
+    backUrl = `${process.env.AUTH0_BASE_URL}/doctors?speciality=${medecinDetails?.speciality}&city=${medecinDetails?.city}`;
   }
 
   return {

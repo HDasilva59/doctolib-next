@@ -1,66 +1,107 @@
 import { GetServerSideProps } from "next";
 import { Layout } from "../component/layout";
+import jwt_decode from "jwt-decode";
+import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { useState } from "react";
 
-export default function FormPatient(props: { props: any }) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+   const accessTokken = context.req.cookies.idTokken;
+  let decoded: any= jwt_decode(accessTokken.toString());
+
+
+  return {
+      props: {
+        email: decoded.email
+      },
+    };
+
+
+};
+
+export default function FormPatient(props: any) {
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event:any) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
   return (
     <Layout>
       <div className="container">
-        <form action="/api/addPatient" method="post">
-          <div className="mb-3 mt-3">
-            <label className="form-label">First Name:</label>
-            <input
+    <Form noValidate validated={validated} action="/api/addPatient" method="post" onSubmit={handleSubmit}>
+      <Row className="mb-3">
+        <Form.Group as={Col} md="4" controlId="validationCustom01">
+          <Form.Label>First name</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter your first name"
+            id="first"
+            name="first"
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group as={Col} md="4" controlId="validationCustom02">
+          <Form.Label>Last name</Form.Label>
+          <Form.Control
+            required
+            type="text"
+           placeholder="Enter your last name"
+            id="last"
+            name="last"
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+          <Form.Label>Email</Form.Label>
+          <InputGroup hasValidation>
+            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+            <Form.Control
               type="text"
-              className="form-control"
-              id="first"
-              placeholder="Enter your first name"
-              name="first"
+              aria-describedby="inputGroupPrepend"
+                  value={`${props.email}`}
+                  id="email"
+                  name="email"
             />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Last Name:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="last"
-              placeholder="Enter your last name"
-              name="last"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Email:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              placeholder="Enter your email"
-              name="email"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Phone number:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="phone"
-              placeholder="Enter your phone number"
-              name="phone"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">City:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="ville"
-              placeholder="Enter your city"
-              name="ville"
-            />
-          </div>
-          <div className="form-check mb-3"></div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+            <Form.Control.Feedback type="invalid">
+              Please choose a username.
+            </Form.Control.Feedback>
+          </InputGroup>
+        </Form.Group>
+      </Row>
+      <Row className="mb-3">
+<Form.Group as={Col} md="4" controlId="validationCustom01">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter your city"
+            id="ville"
+            name="ville"
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group as={Col} md="4" controlId="validationCustom02">
+          <Form.Label>Phone</Form.Label>
+          <Form.Control
+            required
+            type="text"
+           placeholder="Enter your phone number"
+            id="phone"
+            name="phone"
+          />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+        </Form.Group>
+      </Row>
+      <Button type="submit">Submit form</Button>
+    </Form>
       </div>
     </Layout>
   );

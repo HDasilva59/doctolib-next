@@ -46,7 +46,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   } else if (user === "patient") {
     idUser = await userIdPatient(decoded.email);
-
     return {
       props: {
         category: "patient",
@@ -115,7 +114,7 @@ export default function Home(props: any) {
                 <input
                   className={styles.inputtext}
                   type="text"
-                  name="name"
+                  name="speciality"
                   placeholder="Find a doctor"
                 />
                 <select className={styles.inputtext} name="city" id="city">
@@ -210,7 +209,7 @@ export default function Home(props: any) {
                   <input
                     className={styles.inputtext}
                     type="text"
-                    name="name"
+                    name="speciality"
                     placeholder="Find a doctor"
                   />
                   <select className={styles.inputtext} name="city" id="city">

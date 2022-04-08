@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const arrayMedecins = await mongodb
     .db()
     .collection("medecin")
-    .find({ speciality: context.query.name, city: context?.query.city })
+    .find({ speciality: context.query.speciality, city: context?.query.city })
     .toArray();
   const arrayMedecinsString = JSON.stringify(arrayMedecins);
   return {
